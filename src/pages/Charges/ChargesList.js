@@ -13,7 +13,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const deleteCharge = async (charge)=>{
     toast.success('Charge has been deleted')
-        const response = await fetch('http://localhost:8000/charge/'+charge.id, {
+        const response = await fetch(process.env.REACT_APP_API_URL  + '/charge/'+charge.id, {
             method: 'DELETE'
             });
             const data = await response.json();
@@ -32,7 +32,7 @@ function ChargesList() {
     }
 
     useEffect(()=>{
-        fetch('http://localhost:8000/charge')
+        fetch(process.env.REACT_APP_API_URL  + '/charge')
         .then(response => { return response.json()})
         .then(charges => { setData(charges); })  
     },[])

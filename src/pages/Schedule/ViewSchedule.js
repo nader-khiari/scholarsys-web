@@ -238,7 +238,7 @@ function ViewSchedule() {
     const handleButtonClick = () => {
         console.log(schedule)
         if (schedule[0].name !== undefined) {
-            window.open("http://localhost:8000/static/emploi/students/" + schedule[0].name + ".pdf")
+            window.open(process.env.REACT_APP_API_URL  + "/static/emploi/students/" + schedule[0].name + ".pdf")
         }
     }
 

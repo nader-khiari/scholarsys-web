@@ -1,649 +1,705 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 // Import Components
 import { Row, Col, Card, Table, Media } from "react-bootstrap";
 // Import jQuery
-import $ from 'jquery';
+import $ from "jquery";
 // Import Chart
-import { Line, Bar } from 'react-chartjs-2';
+import { Line, Bar } from "react-chartjs-2";
 // Import Icons
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBookOpen, faClock, faFileAlt, faClipboardList, faClipboardCheck, faChalkboard, faUserGraduate, faDesktop, faLevelDownAlt, faLevelUpAlt, faChalkboardTeacher } from '@fortawesome/fontawesome-free-solid';
-import ProgressBar from 'react-customizable-progressbar';
-import {Link} from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux/es/exports';
-import { allStudents, allTeachers } from '../../slices/users';
-import DataTableExtensions from 'react-data-table-component-extensions';
-import DataTable from 'react-data-table-component';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBookOpen,
+  faClock,
+  faFileAlt,
+  faClipboardList,
+  faClipboardCheck,
+  faChalkboard,
+  faUserGraduate,
+  faDesktop,
+  faLevelDownAlt,
+  faLevelUpAlt,
+  faChalkboardTeacher,
+} from "@fortawesome/fontawesome-free-solid";
+import ProgressBar from "react-customizable-progressbar";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux/es/exports";
+import { allStudents, allTeachers } from "../../slices/users";
+import DataTableExtensions from "react-data-table-component-extensions";
+import DataTable from "react-data-table-component";
 
 // Revenue Chart
 const data = {
-    labels: ['Jan', 'Feb', 'Mar','Apr','May','Jun', 'Jul'],
-    datasets: [
-        {
-            label: 'Teachers',
-            backgroundColor: 'rgb(25 175 251 / 20%)',
-            borderColor: '#19affb',
-            borderWidth: 3,
-            hoverBackgroundColor: '#19affb',
-            hoverBorderColor: '#19affb',
-            data: [49, 22, 23,65,43,21,56,57]
-        },
-        {
-            label: 'Students',
-            backgroundColor: 'rgb(253 187 56 / 20%)',
-            borderColor: '#fdbb38',
-            borderWidth: 3,
-            hoverBackgroundColor: '#fdbb38',
-            hoverBorderColor: '#fdbb38',
-            data: [43,21,56,57,70,23,43,21]
-        }
-    ]
+  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+  datasets: [
+    {
+      label: "Teachers",
+      backgroundColor: "rgb(25 175 251 / 20%)",
+      borderColor: "#19affb",
+      borderWidth: 3,
+      hoverBackgroundColor: "#19affb",
+      hoverBorderColor: "#19affb",
+      data: [49, 22, 23, 65, 43, 21, 56, 57],
+    },
+    {
+      label: "Students",
+      backgroundColor: "rgb(253 187 56 / 20%)",
+      borderColor: "#fdbb38",
+      borderWidth: 3,
+      hoverBackgroundColor: "#fdbb38",
+      hoverBorderColor: "#fdbb38",
+      data: [43, 21, 56, 57, 70, 23, 43, 21],
+    },
+  ],
 };
 
 // Student Chart
 const dataBar = {
-    labels: ['2010', '2011', '2012','2013','2014','2015', '2016'],
-    datasets: [
-        {
-            label: 'Boys',
-            backgroundColor: '#19affb',
-            hoverBackgroundColor: '#19affb',
-            hoverBorderColor: '#19affb',
-            data: [497, 452, 273, 635, 483, 621, 556]
-        },
-        {
-            label: 'Girls',
-            backgroundColor: '#fdbb38',
-            hoverBackgroundColor: '#fdbb38',
-            hoverBorderColor: '#fdbb38',
-            data: [443, 351, 526, 537, 750, 453, 643, 721]
-        }
-    ]
+  labels: ["2010", "2011", "2012", "2013", "2014", "2015", "2016"],
+  datasets: [
+    {
+      label: "Boys",
+      backgroundColor: "#19affb",
+      hoverBackgroundColor: "#19affb",
+      hoverBorderColor: "#19affb",
+      data: [497, 452, 273, 635, 483, 621, 556],
+    },
+    {
+      label: "Girls",
+      backgroundColor: "#fdbb38",
+      hoverBackgroundColor: "#fdbb38",
+      hoverBorderColor: "#fdbb38",
+      data: [443, 351, 526, 537, 750, 453, 643, 721],
+    },
+  ],
 };
 
 function componentDidMount() {
-    $(document).ready(function () {
-        $("#calendar-doctor").simpleCalendar({
-            fixedStartDay: 0, // begin weeks by sunday
-            disableEmptyDetails: true,
-            events: [
-                // generate new event after tomorrow for one hour
-                {
-                    startDate: new Date(new Date().setHours(new Date().getHours() + 24)).toDateString(),
-                    endDate: new Date(new Date().setHours(new Date().getHours() + 25)).toISOString(),
-                    summary: 'Conference with teachers'
-                },
-                // generate new event for yesterday at noon
-                {
-                    startDate: new Date(new Date().setHours(new Date().getHours() - new Date().getHours() - 12, 0)).toISOString(),
-                    endDate: new Date(new Date().setHours(new Date().getHours() - new Date().getHours() - 11)).getTime(),
-                    summary: 'Old classes'
-                },
-                // generate new event for the last two days
-                {
-                    startDate: new Date(new Date().setHours(new Date().getHours() - 48)).toISOString(),
-                    endDate: new Date(new Date().setHours(new Date().getHours() - 24)).getTime(),
-                    summary: 'Old Lessons'
-                }
-            ],
-    
-        });
+  $(document).ready(function () {
+    $("#calendar-doctor").simpleCalendar({
+      fixedStartDay: 0, // begin weeks by sunday
+      disableEmptyDetails: true,
+      events: [
+        // generate new event after tomorrow for one hour
+        {
+          startDate: new Date(
+            new Date().setHours(new Date().getHours() + 24)
+          ).toDateString(),
+          endDate: new Date(
+            new Date().setHours(new Date().getHours() + 25)
+          ).toISOString(),
+          summary: "Conference with teachers",
+        },
+        // generate new event for yesterday at noon
+        {
+          startDate: new Date(
+            new Date().setHours(
+              new Date().getHours() - new Date().getHours() - 12,
+              0
+            )
+          ).toISOString(),
+          endDate: new Date(
+            new Date().setHours(
+              new Date().getHours() - new Date().getHours() - 11
+            )
+          ).getTime(),
+          summary: "Old classes",
+        },
+        // generate new event for the last two days
+        {
+          startDate: new Date(
+            new Date().setHours(new Date().getHours() - 48)
+          ).toISOString(),
+          endDate: new Date(
+            new Date().setHours(new Date().getHours() - 24)
+          ).getTime(),
+          summary: "Old Lessons",
+        },
+      ],
     });
+  });
 }
 
-function format(date){
-    var format = new Date(date)
-    var options = {year: 'numeric', month: 'long',day: 'numeric'}
-    return format.toLocaleDateString([],options)
+function format(date) {
+  var format = new Date(date);
+  var options = { year: "numeric", month: "long", day: "numeric" };
+  return format.toLocaleDateString([], options);
 }
 
 function TeacherDashboard() {
-    const { user: currentUser } = useSelector((state) => state.auth);
-    let specificData = JSON.parse(JSON.parse(currentUser.specificData))
-    const dispatch = useDispatch();
+  const { user: currentUser } = useSelector((state) => state.auth);
+  let specificData = JSON.parse(JSON.parse(currentUser.specificData));
+  const dispatch = useDispatch();
 
-    const [lesFormation, setLesFormations] = useState();
-    const [lesNiveaux, setLesNiveaux] = useState();
-    const [lesClasses,setLesClasses] = useState();
-    const [lesMatieres, setLesMatieres] = useState();
-    const [lesNotes, setLesNotes] = useState();
-    const [lesEtudiants, setLesEtudiants] = useState();
+  const [lesFormation, setLesFormations] = useState();
+  const [lesNiveaux, setLesNiveaux] = useState();
+  const [lesClasses, setLesClasses] = useState();
+  const [lesMatieres, setLesMatieres] = useState();
+  const [lesNotes, setLesNotes] = useState();
+  const [lesEtudiants, setLesEtudiants] = useState();
 
-    const teachers = useSelector((state) => state.users.teachers);
-    const students = useSelector((state) => state.users.students)
+  const teachers = useSelector((state) => state.users.teachers);
+  const students = useSelector((state) => state.users.students);
 
-    useEffect(()=>{
-        dispatch(allStudents())
-        dispatch(allTeachers())
+  useEffect(() => {
+    dispatch(allStudents());
+    dispatch(allTeachers());
 
-        if(specificData !== undefined) {
-            fetch('http://localhost:8000/classes')
-            .then(response => { return response.json()})
-            .then(classes => {
-                let tableau = []
-                for(let i=0; i<classes.length;i++){
-                    if(specificData.classesId.includes(classes[i].id)){
-                        tableau.push(classes[i])
-                    }
-                }
-                setLesClasses(tableau)
-            })
-        }
-
-        fetch('http://localhost:8000/note')
-        .then(response => { return response.json()})
-        .then(notes => { 
-            var tableau = [];
-            for(var i=0;i<notes.length;i++){
-                if(notes[i].teacherId == currentUser.id){
-                    tableau.push(notes[i])
-                }
-            }
-            setLesNotes(tableau)
+    if (specificData !== undefined) {
+      fetch(process.env.REACT_APP_API_URL + "/classes")
+        .then((response) => {
+          return response.json();
         })
-        
-    },[])
-
-    useEffect(()=>{
-        console.log(lesClasses,lesNotes)
-        if(lesClasses !== undefined){
-            fetch('http://localhost:8000/niveaus')
-            .then(response => { return response.json()})
-            .then(niveaux => { 
-                let tableau = []
-        
-                for (let i=0; i<lesClasses.length;i++){
-                    let j=0;
-                    let condition = false
-                    
-                    do{
-                        if(niveaux[j].id == lesClasses[i].niveauId && !tableau.includes(niveaux[j])){
-                            tableau.push(niveaux[j])
-                            condition = true
-                        }else{
-                            j++
-                        }
-                    }while(j<niveaux.length && condition === false)
-                }
-                setLesNiveaux(tableau);
-            })
-            if(students !== undefined){
-                let tableau = []
-                for(let i=0; i<lesClasses.length;i++){
-                    for(let j=0;j<students.length;j++){
-                        let classeId = JSON.parse(JSON.parse(students[j].specificData)).classeId
-                        if(classeId == lesClasses[i].id){
-                            tableau.push(students[j])
-                        }
-                    }
-                }
-                setLesEtudiants(tableau)
+        .then((classes) => {
+          let tableau = [];
+          for (let i = 0; i < classes.length; i++) {
+            if (specificData.classesId.includes(classes[i].id)) {
+              tableau.push(classes[i]);
             }
-            
+          }
+          setLesClasses(tableau);
+        });
+    }
 
+    fetch(process.env.REACT_APP_API_URL + "/note")
+      .then((response) => {
+        return response.json();
+      })
+      .then((notes) => {
+        var tableau = [];
+        for (var i = 0; i < notes.length; i++) {
+          if (notes[i].teacherId == currentUser.id) {
+            tableau.push(notes[i]);
+          }
         }
+        setLesNotes(tableau);
+      });
+  }, []);
 
-    },[lesClasses])
+  useEffect(() => {
+    console.log(lesClasses, lesNotes);
+    if (lesClasses !== undefined) {
+      fetch(process.env.REACT_APP_API_URL + "/niveaus")
+        .then((response) => {
+          return response.json();
+        })
+        .then((niveaux) => {
+          let tableau = [];
 
-    useEffect(()=>{
-        console.log(lesNiveaux)
-        if(lesNiveaux !== undefined){
-            fetch('http://localhost:8000/formations')
-            .then(response => { return response.json()})
-            .then(formations => { 
-                let tableau = []
-                for(let i=0; i<lesNiveaux.length; i++){
-                    let j=0;
-                    let condition = false;
-                    do{
-                        if(formations[j].id == lesNiveaux[i].formationId && !tableau.includes(formations[j])){
-                            tableau.push(formations[j]);
-                            condition =true
-                        }else{
-                            j++
-                        }
-                    }while(j<formations.length && condition === false)
-                }
-                setLesFormations(tableau)
-            })
+          for (let i = 0; i < lesClasses.length; i++) {
+            let j = 0;
+            let condition = false;
 
-            fetch('http://localhost:8000/matiere')
-                .then(response => { return response.json()})
-                .then(matieres => { 
-                    let tableau = []
-                    for(let i=0;i<matieres.length;i++){
-                        let j=0;
-                        let condition = false;
-                        do{
-                            if(matieres[i].niveauId == lesNiveaux[j].id){
-                                tableau.push(matieres[i])
-                                condition = true
-                            }else{
-                                j++
-                            }
-                        }while(j<lesNiveaux.length && condition == false)
-                    }
-                    setLesMatieres(tableau)
-                })
-        }
-        
-    },[lesNiveaux])
-
-        function createTableFormations(formations){
-            let data = formations.sort((a,b)=>{
-                return a.id - b.id
-            });
-
-            const columns = [
-                {
-                    name: 'Formation Name',
-                    sortable: true,
-                    selector: row=>row.nom,
-                },
-            ];
-
-            const tableFormations = {
-                columns,
-                data,
-            };
-        
-            return tableFormations;
-        }
-
-        function createLevelTable(levels){
-            let data = levels.sort((a,b)=>{
-                return a.id - b.id
-            });
-
-            const columns = [
-                {
-                    name: 'Designation',
-                    sortable: true,
-                    selector: row=>row.designation,
-                },
-                {
-                    name:'Acronyme',
-                    sortable: true,
-                    selector: row=> row.acronyme
-                },
-                {
-                    name:'Formation',
-                    sortable: true,
-                    selector: row => row.formationId
-                }
-            ];
-
-            const tableLevels = {
-                columns,
-                data,
-            };
-        
-            return tableLevels;
-
-        }
-
-        function createTableClasses(classes){
-            let data = classes.sort((a,b)=>{
-                return a.id - b.id
-            });
-
-            const columns = [
-                {
-                    name: 'Name',
-                    sortable: true,
-                    selector: row=>row.nom,
-                },
-                {
-                    name:'Designation',
-                    sortable: true,
-                    selector: row=> row.designation
-                },
-                {
-                    name:'Level',
-                    sortable: true,
-                    selector: row => row.niveauId
-                }
-            ];
-
-            const tableClasses = {
-                columns,
-                data,
-            };
-        
-            return tableClasses;
-        }
-
-        function createTableEtudiants(lesEtudiants){
-            let data = lesEtudiants.sort((a,b)=>{
-                return a.specificData - b.specificData
-            });
-
-            const columns = [
-                {
-                    name: 'Name',
-                    sortable: true,
-                    selector: row=><Media className="user-dt"><img src={require("../../assets/user_images/" + row.image)} className="avatar-img rounded-circle avatar avatar-sm me-2" /><Media.Body>{row.firstname+' '+row.lastname}</Media.Body></Media>,
-                    width: "180px"
-                },
-                {
-                    name:'Email',
-                    sortable: true,
-                    selector: row=> row.email
-                },
-                {
-                    name:'Phone Number',
-                    sortable: true,
-                    selector: row => row.phoneNumber,
-                    center:true
-                }
-            ];
-
-            const tableEtudiants = {
-                columns,
-                data,
-            };
-        
-            return tableEtudiants;
-        }
-
-        function getSubjectById(id){
-            let name = ''
-            if(lesMatieres !== undefined){
-                lesMatieres.map(subject =>{
-                    if(subject.id == id){
-                        name = subject.designation
-                    }
-                } )
+            do {
+              if (
+                niveaux[j].id == lesClasses[i].niveauId &&
+                !tableau.includes(niveaux[j])
+              ) {
+                tableau.push(niveaux[j]);
+                condition = true;
+              } else {
+                j++;
+              }
+            } while (j < niveaux.length && condition === false);
+          }
+          setLesNiveaux(tableau);
+        });
+      if (students !== undefined) {
+        let tableau = [];
+        for (let i = 0; i < lesClasses.length; i++) {
+          for (let j = 0; j < students.length; j++) {
+            let classeId = JSON.parse(
+              JSON.parse(students[j].specificData)
+            ).classeId;
+            if (classeId == lesClasses[i].id) {
+              tableau.push(students[j]);
             }
-            return name;
+          }
         }
+        setLesEtudiants(tableau);
+      }
+    }
+  }, [lesClasses]);
 
-        function getStudentNameById(id){
-            let name = ''
-            if(lesEtudiants !== undefined){
-                lesEtudiants.map(etudiant =>{
-                    if(etudiant.id == id){
-                        name = etudiant.firstname+' '+etudiant.lastname
-                    }
-                } )
-            }
-            return name;
+  useEffect(() => {
+    console.log(lesNiveaux);
+    if (lesNiveaux !== undefined) {
+      fetch(process.env.REACT_APP_API_URL + "/formations")
+        .then((response) => {
+          return response.json();
+        })
+        .then((formations) => {
+          let tableau = [];
+          for (let i = 0; i < lesNiveaux.length; i++) {
+            let j = 0;
+            let condition = false;
+            do {
+              if (
+                formations[j].id == lesNiveaux[i].formationId &&
+                !tableau.includes(formations[j])
+              ) {
+                tableau.push(formations[j]);
+                condition = true;
+              } else {
+                j++;
+              }
+            } while (j < formations.length && condition === false);
+          }
+          setLesFormations(tableau);
+        });
+
+      fetch(process.env.REACT_APP_API_URL + "/matiere")
+        .then((response) => {
+          return response.json();
+        })
+        .then((matieres) => {
+          let tableau = [];
+          for (let i = 0; i < matieres.length; i++) {
+            let j = 0;
+            let condition = false;
+            do {
+              if (matieres[i].niveauId == lesNiveaux[j].id) {
+                tableau.push(matieres[i]);
+                condition = true;
+              } else {
+                j++;
+              }
+            } while (j < lesNiveaux.length && condition == false);
+          }
+          setLesMatieres(tableau);
+        });
+    }
+  }, [lesNiveaux]);
+
+  function createTableFormations(formations) {
+    let data = formations.sort((a, b) => {
+      return a.id - b.id;
+    });
+
+    const columns = [
+      {
+        name: "Formation Name",
+        sortable: true,
+        selector: (row) => row.nom,
+      },
+    ];
+
+    const tableFormations = {
+      columns,
+      data,
+    };
+
+    return tableFormations;
+  }
+
+  function createLevelTable(levels) {
+    let data = levels.sort((a, b) => {
+      return a.id - b.id;
+    });
+
+    const columns = [
+      {
+        name: "Designation",
+        sortable: true,
+        selector: (row) => row.designation,
+      },
+      {
+        name: "Acronyme",
+        sortable: true,
+        selector: (row) => row.acronyme,
+      },
+      {
+        name: "Formation",
+        sortable: true,
+        selector: (row) => row.formationId,
+      },
+    ];
+
+    const tableLevels = {
+      columns,
+      data,
+    };
+
+    return tableLevels;
+  }
+
+  function createTableClasses(classes) {
+    let data = classes.sort((a, b) => {
+      return a.id - b.id;
+    });
+
+    const columns = [
+      {
+        name: "Name",
+        sortable: true,
+        selector: (row) => row.nom,
+      },
+      {
+        name: "Designation",
+        sortable: true,
+        selector: (row) => row.designation,
+      },
+      {
+        name: "Level",
+        sortable: true,
+        selector: (row) => row.niveauId,
+      },
+    ];
+
+    const tableClasses = {
+      columns,
+      data,
+    };
+
+    return tableClasses;
+  }
+
+  function createTableEtudiants(lesEtudiants) {
+    let data = lesEtudiants.sort((a, b) => {
+      return a.specificData - b.specificData;
+    });
+
+    const columns = [
+      {
+        name: "Name",
+        sortable: true,
+        selector: (row) => (
+          <Media className="user-dt">
+            <img
+              src={require("../../assets/user_images/" + row.image)}
+              className="avatar-img rounded-circle avatar avatar-sm me-2"
+            />
+            <Media.Body>{row.firstname + " " + row.lastname}</Media.Body>
+          </Media>
+        ),
+        width: "180px",
+      },
+      {
+        name: "Email",
+        sortable: true,
+        selector: (row) => row.email,
+      },
+      {
+        name: "Phone Number",
+        sortable: true,
+        selector: (row) => row.phoneNumber,
+        center: true,
+      },
+    ];
+
+    const tableEtudiants = {
+      columns,
+      data,
+    };
+
+    return tableEtudiants;
+  }
+
+  function getSubjectById(id) {
+    let name = "";
+    if (lesMatieres !== undefined) {
+      lesMatieres.map((subject) => {
+        if (subject.id == id) {
+          name = subject.designation;
         }
+      });
+    }
+    return name;
+  }
 
-        function renderStudent(row){
-            let objet = null;
-            if(lesEtudiants !== undefined){
-                lesEtudiants.map(etudiant =>{
-                    if(etudiant.id == row.studentId){
-                        objet = <Media className="user-dt"><img src={require("../../assets/user_images/" +etudiant.image)} className="avatar-img rounded-circle avatar avatar-sm me-2" /><Media.Body>{etudiant.firstname+' '+etudiant.lastname}</Media.Body></Media>
-                    }
-                })
-            }
-            if(objet !== null){
-                return objet;
-            }
-            else{
-                return 'No student found'
-            }
-            
+  function getStudentNameById(id) {
+    let name = "";
+    if (lesEtudiants !== undefined) {
+      lesEtudiants.map((etudiant) => {
+        if (etudiant.id == id) {
+          name = etudiant.firstname + " " + etudiant.lastname;
         }
+      });
+    }
+    return name;
+  }
 
-        function createTableNotes(notes){
-            if(notes !== undefined && lesEtudiants !== undefined){
-                let data = notes.sort((a,b)=>{
-                    return a.date_passage_examen - b.date_passage_examen
-                });
-
-                console.log(data)
-    
-                const columns = [
-                    {
-                        name:'Type',
-                        sortable: true,
-                        selector: row => row.type,
-                    },
-                    {
-                        name:'Notes',
-                        sortable: true,
-                        selector: row => row.note_val+'/20',
-                    },
-                    {
-                        name:'Coefficient',
-                        sortable: true,
-                        selector: row => row.coef_Note,
-                    },
-                    {
-                        name: 'Subject',
-                        sortable: true,
-                        selector: row => getSubjectById(row.matiereId)
-                    },
-                    {
-                        name: 'Student',
-                        sortable: true,
-                        selector: row=> renderStudent(row),
-                        center: true
-                    },
-                    {
-                        name: 'Exam Date',
-                        sortable: true,
-                        selector: row => format(row.date_passage_examen),
-                    }
-    
-                ];
-    
-                const tableNotes = {
-                    columns,
-                    data,
-                };
-            
-                return tableNotes;
-            }
+  function renderStudent(row) {
+    let objet = null;
+    if (lesEtudiants !== undefined) {
+      lesEtudiants.map((etudiant) => {
+        if (etudiant.id == row.studentId) {
+          objet = (
+            <Media className="user-dt">
+              <img
+                src={require("../../assets/user_images/" + etudiant.image)}
+                className="avatar-img rounded-circle avatar avatar-sm me-2"
+              />
+              <Media.Body>
+                {etudiant.firstname + " " + etudiant.lastname}
+              </Media.Body>
+            </Media>
+          );
         }
+      });
+    }
+    if (objet !== null) {
+      return objet;
+    } else {
+      return "No student found";
+    }
+  }
 
-        return (
+  function createTableNotes(notes) {
+    if (notes !== undefined && lesEtudiants !== undefined) {
+      let data = notes.sort((a, b) => {
+        return a.date_passage_examen - b.date_passage_examen;
+      });
+
+      console.log(data);
+
+      const columns = [
+        {
+          name: "Type",
+          sortable: true,
+          selector: (row) => row.type,
+        },
+        {
+          name: "Notes",
+          sortable: true,
+          selector: (row) => row.note_val + "/20",
+        },
+        {
+          name: "Coefficient",
+          sortable: true,
+          selector: (row) => row.coef_Note,
+        },
+        {
+          name: "Subject",
+          sortable: true,
+          selector: (row) => getSubjectById(row.matiereId),
+        },
+        {
+          name: "Student",
+          sortable: true,
+          selector: (row) => renderStudent(row),
+          center: true,
+        },
+        {
+          name: "Exam Date",
+          sortable: true,
+          selector: (row) => format(row.date_passage_examen),
+        },
+      ];
+
+      const tableNotes = {
+        columns,
+        data,
+      };
+
+      return tableNotes;
+    }
+  }
+
+  return (
+    <div>
+      {/* Page Header */}
+      <div className="page-header">
+        <div className="row">
+          <div className="col-sm-12">
+            <h3 className="page-title">
+              Welcome {currentUser.firstname + " " + currentUser.lastname}!
+            </h3>
+            <ul className="breadcrumb">
+              <li className="breadcrumb-item">
+                <Link to="/dashboard">Dashboard</Link>
+              </li>
+              <li className="breadcrumb-item active">Teacher Dashboard</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      {/* /Page Header */}
+      {/* Overview Section */}
+      <div className="row">
+        <div className="col-xl-3 col-sm-6 col-12 d-flex">
+          <div className="card bg-nine w-100">
+            <div className="card-body">
+              <div className="db-widgets d-flex justify-content-between align-items-center">
+                <div className="db-icon">
+                  <FontAwesomeIcon icon={faDesktop} />
+                </div>
+                <div className="db-info">
+                  <h3>{lesFormation && lesFormation.length}</h3>
+                  <h6>Formations</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-xl-3 col-sm-6 col-12 d-flex">
+          <div className="card bg-six w-100">
+            <div className="card-body">
+              <div className="db-widgets d-flex justify-content-between align-items-center">
+                <div className="db-icon">
+                  <FontAwesomeIcon icon={faLevelUpAlt} />
+                </div>
+                <div className="db-info">
+                  <h3>{lesNiveaux && lesNiveaux.length}</h3>
+                  <h6>Levels</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-xl-3 col-sm-6 col-12 d-flex">
+          <div className="card bg-ten w-100">
+            <div className="card-body">
+              <div className="db-widgets d-flex justify-content-between align-items-center">
+                <div className="db-icon">
+                  <FontAwesomeIcon icon={faChalkboardTeacher} />
+                </div>
+                <div className="db-info">
+                  <h3>{lesClasses && lesClasses.length}</h3>
+                  <h6>Classes</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-xl-3 col-sm-6 col-12 d-flex">
+          <div className="card bg-eleven w-100">
+            <div className="card-body">
+              <div className="db-widgets d-flex justify-content-between align-items-center">
+                <div className="db-icon">
+                  <FontAwesomeIcon icon={faFileAlt} />
+                </div>
+                <div className="db-info">
+                  <h3>{lesMatieres && lesMatieres.length}</h3>
+                  <h6>Subjects</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-xl-3 col-sm-6 col-12 d-flex">
+          <div className="card bg-seven w-100">
+            <div className="card-body">
+              <div className="db-widgets d-flex justify-content-between align-items-center">
+                <div className="db-icon">
+                  <FontAwesomeIcon icon={faUserGraduate} />
+                </div>
+                <div className="db-info">
+                  <h3>{lesEtudiants && lesEtudiants.length}</h3>
+                  <h6>Students</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* /Overview Section */}
+      {/* Student Dashboard */}
+      <div className="row">
+        <div className="row">
+          <div className="col-12 col-lg-12 col-xl-6 d-flex">
+            <div className="row">
+              <h3 className="page-title">Formations</h3>
+              <div className="card flex-fill">
+                {lesFormation && (
+                  <DataTableExtensions {...createTableFormations(lesFormation)}>
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      highlightOnHover
+                    />
+                  </DataTableExtensions>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="col-12 col-lg-12 col-xl-6 d-flex">
+            <div className="row">
+              <h3 className="page-title">Levels</h3>
+              <div className="card flex-fill">
+                {lesNiveaux && (
+                  <DataTableExtensions {...createLevelTable(lesNiveaux)}>
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      highlightOnHover
+                    />
+                  </DataTableExtensions>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-12 col-lg-12 col-xl-6 d-flex">
+            <div className="row">
+              <h3 className="page-title">Classes</h3>
+              <div className="card flex-fill">
+                {lesClasses && (
+                  <DataTableExtensions {...createTableClasses(lesClasses)}>
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      highlightOnHover
+                    />
+                  </DataTableExtensions>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="col-12 col-lg-12 col-xl-6 d-flex">
             <div>
-               {/* Page Header */}
-                    <div className="page-header">
-                        <div className="row">
-                            <div className="col-sm-12">
-                                <h3 className="page-title">Welcome {currentUser.firstname +' '+currentUser.lastname}!</h3>
-                                <ul className="breadcrumb">
-                                    <li className="breadcrumb-item">
-                                        <Link to="/dashboard">Dashboard</Link>
-                                    </li>
-                                    <li className="breadcrumb-item active">Teacher Dashboard</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    {/* /Page Header */}
-                    {/* Overview Section */}
-                    <div className="row">
-                        <div className="col-xl-3 col-sm-6 col-12 d-flex">
-                            <div className="card bg-nine w-100">
-                                <div className="card-body">
-                                    <div className="db-widgets d-flex justify-content-between align-items-center">
-                                        <div className="db-icon">
-                                            <FontAwesomeIcon icon={faDesktop} />
-                                        </div>
-                                        <div className="db-info">
-                                            <h3>{lesFormation && lesFormation.length}</h3>
-                                            <h6>Formations</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-sm-6 col-12 d-flex">
-                            <div className="card bg-six w-100">
-                                <div className="card-body">
-                                    <div className="db-widgets d-flex justify-content-between align-items-center">
-                                        <div className="db-icon">
-                                         <FontAwesomeIcon icon={faLevelUpAlt} />
-                                        </div>
-                                        <div className="db-info">
-                                            <h3>{lesNiveaux && lesNiveaux.length}</h3>
-                                            <h6>Levels</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-sm-6 col-12 d-flex">
-                            <div className="card bg-ten w-100">
-                                <div className="card-body">
-                                    <div className="db-widgets d-flex justify-content-between align-items-center">
-                                        <div className="db-icon">
-                                            <FontAwesomeIcon icon={faChalkboardTeacher} />
-                                        </div>
-                                        <div className="db-info">
-                                            <h3>{lesClasses && lesClasses.length}</h3>
-                                            <h6>Classes</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-sm-6 col-12 d-flex">
-                            <div className="card bg-eleven w-100">
-                                <div className="card-body">
-                                    <div className="db-widgets d-flex justify-content-between align-items-center">
-                                        <div className="db-icon">
-                                            <FontAwesomeIcon icon={faFileAlt} />
-                                        </div>
-                                        <div className="db-info">
-                                            <h3>{lesMatieres && lesMatieres.length}</h3>
-                                            <h6>Subjects</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-sm-6 col-12 d-flex">
-                            <div className="card bg-seven w-100">
-                                <div className="card-body">
-                                    <div className="db-widgets d-flex justify-content-between align-items-center">
-                                        <div className="db-icon">
-                                            <FontAwesomeIcon icon={faUserGraduate} />
-                                        </div>
-                                        <div className="db-info">
-                                            <h3>{lesEtudiants && lesEtudiants.length}</h3>
-                                            <h6>Students</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/* /Overview Section */}
-                    {/* Student Dashboard */}   
-                    <div className="row">
-                    <div className="row">
-                        <div className="col-12 col-lg-12 col-xl-6 d-flex">
-                            <div className='row'>
-                                <h3 className='page-title'>Formations</h3>
-                                <div className="card flex-fill">
-                                    {lesFormation && <DataTableExtensions
-                                        {...createTableFormations(lesFormation)} 
-                                        >
-                                        <DataTable
-                                        noHeader
-                                        defaultSortField="id"
-                                        defaultSortAsc={false}
-                                        pagination
-                                        highlightOnHover
-                                        />
-                                        </DataTableExtensions>}
-                                </div>
-                            </div>
-                        </div>
+              <h3 className="page-title">Students</h3>
+              <div className="card flex-fill">
+                {lesEtudiants && (
+                  <DataTableExtensions {...createTableEtudiants(lesEtudiants)}>
+                    <DataTable
+                      noHeader
+                      defaultSortField="id"
+                      defaultSortAsc={false}
+                      pagination
+                      highlightOnHover
+                    />
+                  </DataTableExtensions>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
 
-                        <div className="col-12 col-lg-12 col-xl-6 d-flex">
-                            <div className='row'>
-                                <h3 className='page-title'>Levels</h3>
-                                <div className="card flex-fill">
-                                    {lesNiveaux && <DataTableExtensions
-                                        {...createLevelTable(lesNiveaux)} 
-                                        >
-                                        <DataTable
-                                        noHeader
-                                        defaultSortField="id"
-                                        defaultSortAsc={false}
-                                        pagination
-                                        highlightOnHover
-                                        />
-                                        </DataTableExtensions>}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <div className="row">
+          <div className="col col">
+            <h3 className="page-title">Grades</h3>
+            <br></br>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-12 col-lg-12 col-xl-12 d-flex">
+            <div className="card flex-fill">
+              {lesEtudiants && lesNotes && (
+                <DataTableExtensions {...createTableNotes(lesNotes)}>
+                  <DataTable
+                    noHeader
+                    defaultSortField="id"
+                    defaultSortAsc={false}
+                    pagination
+                    highlightOnHover
+                  />
+                </DataTableExtensions>
+              )}
+            </div>
+          </div>
+        </div>
 
-                    <div className='row'>
-                        <div className="col-12 col-lg-12 col-xl-6 d-flex">
-                            <div className='row'>
-                                <h3 className='page-title'>Classes</h3>
-                                <div className="card flex-fill">
-                                    {lesClasses && <DataTableExtensions
-                                        {...createTableClasses(lesClasses)} 
-                                        >
-                                        <DataTable
-                                        noHeader
-                                        defaultSortField="id"
-                                        defaultSortAsc={false}
-                                        pagination
-                                        highlightOnHover
-                                        />
-                                        </DataTableExtensions>}
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div className="col-12 col-lg-12 col-xl-6 d-flex">
-                            <div>
-                                <h3 className='page-title'>Students</h3>
-                                <div className="card flex-fill">
-                                    {lesEtudiants && <DataTableExtensions
-                                        {...createTableEtudiants(lesEtudiants)} 
-                                        >
-                                        <DataTable
-                                        noHeader
-                                        defaultSortField="id"
-                                        defaultSortAsc={false}
-                                        pagination
-                                        highlightOnHover
-                                        />
-                                        </DataTableExtensions>}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div className='row'>
-                        <div className='col col'>
-                            <h3 className='page-title'>Grades</h3>
-                            <br></br>
-                        </div>
-                    </div>
-                    <div className='row'>
-                        <div className="col-12 col-lg-12 col-xl-12 d-flex">
-                                <div className="card flex-fill">
-                                    {lesEtudiants && lesNotes && <DataTableExtensions
-                                        {...createTableNotes(lesNotes)} 
-                                        >
-                                        <DataTable
-                                        noHeader
-                                        defaultSortField="id"
-                                        defaultSortAsc={false}
-                                        pagination
-                                        highlightOnHover
-                                        />
-                                        </DataTableExtensions>}
-                                </div>
-                        </div>
-                    </div>
-
-                    {/* 
+        {/* 
 
                         <div className="col-12 col-lg-12 col-xl-9">
                         <div className="row">
@@ -907,11 +963,10 @@ function TeacherDashboard() {
                                </div>
                             </div>
                         </div>*/}
-                    </div>
-                    
-                    {/* /Student Dashboard */}
-                    
-            </div>
-        )
+      </div>
+
+      {/* /Student Dashboard */}
+    </div>
+  );
 }
 export { TeacherDashboard };

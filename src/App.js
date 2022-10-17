@@ -1,35 +1,34 @@
-import './App.css';
+import "./App.css";
 import { Route, BrowserRouter as Router, Switch, Link } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
-import Register from './pages/Register/Register';
-import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
-import Login from './pages/Login/Login';
-import Header from './_components/header/Header';
-import { allUsers } from './slices/users';
-import { useLocation } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import Register from "./pages/Register/Register";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import Login from "./pages/Login/Login";
+import Header from "./_components/header/Header";
+import { allUsers } from "./slices/users";
+import { useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-import PrivateAgentRoute from './_components/_helpers/PrivateAgentRoute';
-import PrivateStudentRoute from './_components/_helpers/PrivateStudentRoute';
-import PrivateTeacherRoute from './_components/_helpers/PrivateTeacherRoute';
-import RouteAuthenticated from './_components/_helpers/RouteAuthenticated';
-import RouteUnauthenticated from './_components/_helpers/RouteUnauthenticated';
-import PrivateAdminRoute from './_components/_helpers/PrivateAdminRoute';
+import PrivateAgentRoute from "./_components/_helpers/PrivateAgentRoute";
+import PrivateStudentRoute from "./_components/_helpers/PrivateStudentRoute";
+import PrivateTeacherRoute from "./_components/_helpers/PrivateTeacherRoute";
+import RouteAuthenticated from "./_components/_helpers/RouteAuthenticated";
+import RouteUnauthenticated from "./_components/_helpers/RouteUnauthenticated";
+import PrivateAdminRoute from "./_components/_helpers/PrivateAdminRoute";
 
-import Home from './pages/Home/Home';
+import Home from "./pages/Home/Home";
 
-import AddAgent from './pages/Agents/AddAgent';
-import EditAgent from './pages/Agents/EditAgent';
-import AgentsList from './pages/Agents/AgentsList';
+import AddAgent from "./pages/Agents/AddAgent";
+import EditAgent from "./pages/Agents/EditAgent";
+import AgentsList from "./pages/Agents/AgentsList";
 
-import AddTeacher from './pages/Teachers/AddTeacher';
-import EditTeacher from './pages/Teachers/EditTeacher';
-import TeachersList from './pages/Teachers/TeachersList';
+import AddTeacher from "./pages/Teachers/AddTeacher";
+import EditTeacher from "./pages/Teachers/EditTeacher";
+import TeachersList from "./pages/Teachers/TeachersList";
 
-import AddStudent from './pages/Students/AddStudent';
-import EditStudent from './pages/Students/EditStudent';
-import StudentsList from './pages/Students/StudentsList';
-
+import AddStudent from "./pages/Students/AddStudent";
+import EditStudent from "./pages/Students/EditStudent";
+import StudentsList from "./pages/Students/StudentsList";
 
 import {
   // Authentication Modules
@@ -41,7 +40,6 @@ import {
   TeacherDashboard,
 
   // Students Module
-
   StudentDetails,
 
   // Teachers Module
@@ -147,80 +145,82 @@ import {
 
   // Inbox Module
   Inbox,
-  Compose
-} from './pages';
-import { Footer } from './_components';
-import Fees from './pages/Fees/Fees';
-import { useEffect } from 'react';
-import Sidebar from './_components/sidebar/Sidebar';
-import Unauthorized from './pages/UnauthorizedPage/Unauthorized';
-import Profile from './pages/Profile/Profile';
-import ResetPassword from './pages/ResetPassword/ResetPassword';
-import ConfirmAccount from './pages/ConfirmAccount/ConfirmAccount';
-import { logout } from './slices/auth';
-import Schedules from './pages/Schedule/Schedules';
-import SchedulesList from './pages/Schedules/SchedulesList';
-import AddSchedule from './pages/Schedules/AddSchedule';
-import ViewSchedule from './pages/Schedule/ViewSchedule';
-import ViewScheduleForTeacher from './pages/Schedule/ViewScheduleForTeacher';
-import Attendance from './pages/Attendance/Attendance';
+  Compose,
+} from "./pages";
+import { Footer } from "./_components";
+import Fees from "./pages/Fees/Fees";
+import { useEffect } from "react";
+import Sidebar from "./_components/sidebar/Sidebar";
+import Unauthorized from "./pages/UnauthorizedPage/Unauthorized";
+import Profile from "./pages/Profile/Profile";
+import ResetPassword from "./pages/ResetPassword/ResetPassword";
+import ConfirmAccount from "./pages/ConfirmAccount/ConfirmAccount";
+import { logout } from "./slices/auth";
+import Schedules from "./pages/Schedule/Schedules";
+import SchedulesList from "./pages/Schedules/SchedulesList";
+import AddSchedule from "./pages/Schedules/AddSchedule";
+import ViewSchedule from "./pages/Schedule/ViewSchedule";
+import ViewScheduleForTeacher from "./pages/Schedule/ViewScheduleForTeacher";
+import Attendance from "./pages/Attendance/Attendance";
 
 function App() {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { user: currentUser } = useSelector((state) => state.auth);
   const location = useLocation();
-  const history = useHistory()
-  const dispatch = useDispatch()
+  const history = useHistory();
+  const dispatch = useDispatch();
 
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem("token");
 
   const parseJwt = (token) => {
     try {
-      return JSON.parse(atob(token.split('.')[1]));
+      return JSON.parse(atob(token.split(".")[1]));
     } catch (e) {
       return null;
     }
   };
 
-
   useEffect(() => {
     const currentPath = location.pathname;
+    console.log("%c LOGGEDIN: " + isLoggedIn, "color:red;");
     if (isLoggedIn) {
       if (currentPath === "/") {
-        history.push('/home')
+        history.push("/home");
       }
     } else {
       if (currentPath === "/") {
-        history.push('/login')
+        history.push("/login");
       }
     }
-     if (token) {
-       const decodedJwt = parseJwt(token);
-       if (decodedJwt.exp * 1000 < Date.now()) {
-         dispatch(logout())
-         history.push('/login')
-       }
-     }
-
-  }, [location])
-
-
+    if (token) {
+      const decodedJwt = parseJwt(token);
+      if (decodedJwt.exp * 1000 < Date.now()) {
+        dispatch(logout());
+        history.push("/login");
+      }
+    }
+  }, [location]);
 
   if (!isLoggedIn) {
     return (
       <div>
         <RouteUnauthenticated path="/login" component={Login} />
         <RouteUnauthenticated path="/register" component={Register} />
-        <RouteUnauthenticated path="/forgot-password" component={ForgotPassword} />
+        <RouteUnauthenticated
+          path="/forgot-password"
+          component={ForgotPassword}
+        />
         <RouteUnauthenticated path="/error" component={Error} />
         <Route path="/reset_password/:refreshToken" component={ResetPassword} />
-        <RouteUnauthenticated path="/confirm/:refreshToken" component={ConfirmAccount} />
+        <RouteUnauthenticated
+          path="/confirm/:refreshToken"
+          component={ConfirmAccount}
+        />
       </div>
-    )
+    );
   } else {
     return (
       <div className="App">
-
         <div className="main-wrapper">
           {/* <Sidebar/> */}
           <Route render={(props) => <Sidebar {...props} />} />
@@ -229,28 +229,43 @@ function App() {
 
             <div className="page-wrapper">
               <div className="content container-fluid">
-
-               
-
-                <RouteAuthenticated path="/view-schedule/:id" component={ViewSchedule} />
-                <RouteAuthenticated path="/view-schedule-teacher/:id" component={ViewScheduleForTeacher} />
+                <RouteAuthenticated
+                  path="/view-schedule/:id"
+                  component={ViewSchedule}
+                />
+                <RouteAuthenticated
+                  path="/view-schedule-teacher/:id"
+                  component={ViewScheduleForTeacher}
+                />
 
                 {/* Profile Module */}
                 <RouteAuthenticated path="/profile" component={Profile} />
 
                 {/* Accounts Module */}
-                <RouteAuthenticated path="/fees-collections" component={FeesCollections} />
+                <RouteAuthenticated
+                  path="/fees-collections"
+                  component={FeesCollections}
+                />
                 <RouteAuthenticated path="/expenses" component={Expenses} />
                 <RouteAuthenticated path="/salary" component={Salary} />
-                <RouteAuthenticated path="/add-fees-collections" component={AddFeesCollections} />
-                <RouteAuthenticated path="/add-expenses" component={AddExpenses} />
+                <RouteAuthenticated
+                  path="/add-fees-collections"
+                  component={AddFeesCollections}
+                />
+                <RouteAuthenticated
+                  path="/add-expenses"
+                  component={AddExpenses}
+                />
                 <RouteAuthenticated path="/add-salary" component={AddSalary} />
 
                 {/* Users Module */}
 
                 {/* Holiday Module */}
                 <RouteAuthenticated path="/holiday" component={Holiday} />
-                <RouteAuthenticated path="/add-holiday" component={AddHoliday} />
+                <RouteAuthenticated
+                  path="/add-holiday"
+                  component={AddHoliday}
+                />
 
                 {/* Fees Module */}
                 <RouteAuthenticated path="/fees" component={Fees} />
@@ -264,14 +279,19 @@ function App() {
 
                 {/* Time Table Module */}
                 <RouteAuthenticated path="/time-table" component={TimeTable} />
-                <RouteAuthenticated path="/add-time-table" component={AddTimeTable} />
-                <RouteAuthenticated path="/edit-time-table" component={EditTimeTable} />
+                <RouteAuthenticated
+                  path="/add-time-table"
+                  component={AddTimeTable}
+                />
+                <RouteAuthenticated
+                  path="/edit-time-table"
+                  component={EditTimeTable}
+                />
 
                 {/* Library Module */}
                 <RouteAuthenticated path="/library" component={Library} />
                 <RouteAuthenticated path="/add-book" component={AddBook} />
                 <RouteAuthenticated path="/edit-book" component={EditBook} />
-
 
                 {/* Sports Module */}
                 <RouteAuthenticated path="/sports" component={SportsList} />
@@ -284,22 +304,31 @@ function App() {
                 <RouteAuthenticated path="/edit-room" component={EditRoom} />
 
                 {/* Transport Module */}
-                <RouteAuthenticated path="/transport" component={TransportsList} />
-                <RouteAuthenticated path="/add-transport" component={AddTransport} />
-                <RouteAuthenticated path="/edit-transport" component={EditTransport} />
-{/*                 <Route path="/reset_password/:refreshToken" component={ResetPassword} />
- */}
-
+                <RouteAuthenticated
+                  path="/transport"
+                  component={TransportsList}
+                />
+                <RouteAuthenticated
+                  path="/add-transport"
+                  component={AddTransport}
+                />
+                <RouteAuthenticated
+                  path="/edit-transport"
+                  component={EditTransport}
+                />
+                {/*                 <Route path="/reset_password/:refreshToken" component={ResetPassword} />
+                 */}
 
                 {/* Inbox Module */}
                 <RouteAuthenticated path="/inbox" component={Inbox} />
                 <RouteAuthenticated path="/compose" component={Compose} />
 
-                <RouteAuthenticated path="/unauthorized" component={Unauthorized} />
+                <RouteAuthenticated
+                  path="/unauthorized"
+                  component={Unauthorized}
+                />
 
                 <RouteAuthenticated exact path="/home" component={Home} />
-
-
 
                 {/* Blank Page Module */}
                 <RouteAuthenticated path="/blank-page" component={BlankPage} />
@@ -315,8 +344,16 @@ function App() {
                   {/* Teacher Module */}
                   <Route exact path="/teachers" component={TeachersList} />
                   <Route exact path="/add-teacher" component={AddTeacher} />
-                  <Route exact path="/edit-teacher/:id" component={EditTeacher} />
-                  <Route exact path="/teacher-details" component={TeacherDetails} />
+                  <Route
+                    exact
+                    path="/edit-teacher/:id"
+                    component={EditTeacher}
+                  />
+                  <Route
+                    exact
+                    path="/teacher-details"
+                    component={TeacherDetails}
+                  />
 
                   {/* Users Module */}
                   <Route exact path="/add-agent" component={AddAgent} />
@@ -324,7 +361,6 @@ function App() {
                   <Route exact path="/agents" component={AgentsList} />
 
                   {/* Department Module */}
-
 
                   {/* Subject Module */}
                   <Route exact path="/add-subject" component={AddSubject} />
@@ -346,15 +382,13 @@ function App() {
                   <Route path="/edit-class" component={EditClass} />
                   <Route path="/classes" component={ClassesList} />
 
-                
-
                   {/* Charge Module */}
                   <Route path="/add-charge" component={AddCharge} />
                   <Route path="/edit-charge" component={EditCharge} />
                   <Route path="/charges" component={ChargesList} />
 
                   {/* Accounts Module */}
-                {/*   <Route path="/fees-collections" component={FeesCollections} />
+                  {/*   <Route path="/fees-collections" component={FeesCollections} />
                   <Route path="/expenses" component={Expenses} />
                   <Route path="/salary" component={Salary} />
                   <Route path="/add-fees-collections" component={AddFeesCollections} />
@@ -362,11 +396,11 @@ function App() {
                   <Route path="/add-salary" component={AddSalary} /> */}
 
                   {/* Holiday Module */}
-            {/*       <Route path="/holiday" component={Holiday} />
+                  {/*       <Route path="/holiday" component={Holiday} />
                   <Route path="/add-holiday" component={AddHoliday} /> */}
 
                   {/* Fees Module */}
-              {/*     <Route path="/fees" component={Fees} />
+                  {/*     <Route path="/fees" component={Fees} />
                   <Route path="/add-fees" component={AddFees} />
                   <Route path="/edit-fees" component={EditFees} /> */}
 
@@ -376,28 +410,27 @@ function App() {
                   <Route path="/edit-exam" component={EditExam} />
 
                   {/* Time Table Module */}
-                {/*   <Route path="/time-table" component={TimeTable} />
+                  {/*   <Route path="/time-table" component={TimeTable} />
                   <Route path="/add-time-table" component={AddTimeTable} />
                   <Route path="/edit-time-table" component={EditTimeTable} /> */}
 
                   {/* Library Module */}
-               {/*    <Route path="/library" component={Library} />
+                  {/*    <Route path="/library" component={Library} />
                   <Route path="/add-book" component={AddBook} />
                   <Route path="/edit-book" component={EditBook} /> */}
 
-
                   {/* Sports Module */}
-              {/*     <Route path="/sports" component={SportsList} />
+                  {/*     <Route path="/sports" component={SportsList} />
                   <Route path="/add-sport" component={AddSport} />
                   <Route path="/edit-sport" component={EditSport} /> */}
 
                   {/* Hostel Module */}
-                 {/*  <Route path="/hostel" component={HostelList} />
+                  {/*  <Route path="/hostel" component={HostelList} />
                   <Route path="/add-room" component={AddRoom} />
                   <Route path="/edit-room" component={EditRoom} /> */}
 
                   {/* Transport Module */}
-            {/*       <Route path="/transport" component={TransportsList} />
+                  {/*       <Route path="/transport" component={TransportsList} />
                   <Route path="/add-transport" component={AddTransport} />
                   <Route path="/edit-transport" component={EditTransport} /> */}
 
@@ -405,7 +438,7 @@ function App() {
                   <Route exact path="/components" component={Components} />
 
                   {/* Forms Module */}
-                 {/*  <PrivateAgentRoute exact path="/form-basic-inputs" component={FormBasicInput} />
+                  {/*  <PrivateAgentRoute exact path="/form-basic-inputs" component={FormBasicInput} />
                   <PrivateAgentRoute exact path="/form-horizontal" component={FormHorizontal} />
                   <PrivateAgentRoute exact path="/form-input-groups" component={FormInputGroups} />
                   <PrivateAgentRoute exact path="/form-mask" component={FormMask} />
@@ -421,20 +454,35 @@ function App() {
                   <Route exact path="/add-event" component={AddEvent} />
 
                   <Route exact path="/dashboard" component={Dashboard} />
-                  <Route exact path="/student-dashboard" component={StudentDashboard} />
-                  <Route exact path="/teacher-dashboard" component={TeacherDashboard} />
+                  <Route
+                    exact
+                    path="/student-dashboard"
+                    component={StudentDashboard}
+                  />
+                  <Route
+                    exact
+                    path="/teacher-dashboard"
+                    component={TeacherDashboard}
+                  />
 
                   {/* Student Module */}
                   <Route exact path="/students" component={StudentsList} />
                   <Route exact path="/add-student" component={AddStudent} />
-                  <Route exact path="/edit-student/:id" component={EditStudent} />
-                  <Route exact path="/student-details" component={StudentDetails} />
+                  <Route
+                    exact
+                    path="/edit-student/:id"
+                    component={EditStudent}
+                  />
+                  <Route
+                    exact
+                    path="/student-details"
+                    component={StudentDetails}
+                  />
 
                   <Route path="/schedule/:id" component={Schedules} />
                   <Route path="/schedules-list" component={SchedulesList} />
                   <Route path="/add-schedule" component={AddSchedule} />
                 </div>
-
               </div>
               <Route render={(props) => <Footer {...props} />} />
             </div>
@@ -443,7 +491,6 @@ function App() {
       </div>
     );
   }
-
 }
 
 export default App;
