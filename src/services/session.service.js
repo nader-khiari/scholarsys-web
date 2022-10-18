@@ -10,8 +10,8 @@ const getAllSessions = () => {
         })
 }
 
-const createSession = (startHour, startMinute, seanceDuration, day, emploiId, teacherId, agentId, matiereId, salleId) => {
-    console.log(startHour, startMinute, seanceDuration, day, emploiId, teacherId, agentId, matiereId, salleId)
+const createSession = (startHour, startMinute, seanceDuration, day, emploiId, teacherId, adminId, matiereId, salleId) => {
+    console.log(startHour, startMinute, seanceDuration, day, emploiId, teacherId, adminId, matiereId, salleId)
     return axios
         .post(API_URL + '/', {
             startHour,
@@ -20,7 +20,7 @@ const createSession = (startHour, startMinute, seanceDuration, day, emploiId, te
             day,
             emploiId,
             teacherId,
-            agentId,
+            adminId,
             matiereId,
             salleId
         })
@@ -43,7 +43,7 @@ const deleteSession = (id) => {
         .then((res) => { return res.data })
 }
 
-const updateSession = (startHour, startMinute, seanceDuration, day, emploiId, teacherId, agentId, matiereId, salleId, id) => {
+const updateSession = (startHour, startMinute, seanceDuration, day, emploiId, teacherId, adminId, matiereId, salleId, id) => {
     return axios
         .patch(API_URL + '/' + id, {
             startHour,
@@ -52,7 +52,7 @@ const updateSession = (startHour, startMinute, seanceDuration, day, emploiId, te
             day,
             emploiId,
             teacherId,
-            agentId,
+            adminId,
             matiereId,
             salleId
         })

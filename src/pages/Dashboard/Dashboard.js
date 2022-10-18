@@ -61,7 +61,7 @@ class Dashboard extends React.Component {
                 <div className="page-header">
                     <Row>
                         <Col sm={12}>
-                            <h3 className="page-title">Welcome Admin!</h3>
+                            <h3 className="page-title">Welcome Agent!</h3>
                             <ul className="breadcrumb">
                                 <li className="breadcrumb-item active">Dashboard</li>
                             </ul>

@@ -186,7 +186,7 @@ class Inbox extends React.Component {
                                                     </td>
                                                     <td><span className="mail-important"><FontAwesomeIcon icon={faStar} /></span></td>
                                                     <td className="name">Twitter</td>
-                                                    <td className="subject">HRMS Bootstrap Admin Template</td>
+                                                    <td className="subject">HRMS Bootstrap Agent Template</td>
                                                     <td></td>
                                                     <td className="mail-date">30 Nov</td>
                                                 </tr>

@@ -53,7 +53,7 @@ function Schedules() {
     const subjectsList = useSelector((state) => state.subjects.subjects)
     const teachersList = useSelector((state) => state.users.teachers)
     const roomsList = useSelector((state) => state.rooms.rooms)
-    //{title:"",defId:"",publicId:"",extendedProps:{agentId:"",day:"",emploiId:"",matiere:"",matiereId:"",room:"",roomId:"",teacher:"",teacherId:"",seance_duration:"",start_hour:"",start_minute:""}}
+    //{title:"",defId:"",publicId:"",extendedProps:{adminId:"",day:"",emploiId:"",matiere:"",matiereId:"",room:"",roomId:"",teacher:"",teacherId:"",seance_duration:"",start_hour:"",start_minute:""}}
     //const [eventRow, setEventRow] = useState()
     const [events, setevents] = useState([])
     const [isDisplayed, setIsDisplayed] = useState(false);
@@ -230,8 +230,8 @@ function Schedules() {
 
     const handleUpdateEvent = async () => {
         console.log(currentEvent)
-        //sessionService.updateSession(currentEvent.start_hour, currentEvent.start_minute, currentEvent.seance_duration, currentEvent.day, currentEvent.emploiId, currentEvent.teacherId, currentEvent.agentId, currentEvent.matiereId, currentEvent.salleId, currentEvent.id)
-        sessionService.updateSession(currentEvent.start_hour, currentEvent.start_minute, currentEvent.seance_duration, weekday.indexOf(currentEvent.day) + 1, currentEvent.emploiId, currentEvent.teacherId, currentEvent.agentId, currentEvent.matiereId, currentEvent.salleId, currentEvent.id)
+        //sessionService.updateSession(currentEvent.start_hour, currentEvent.start_minute, currentEvent.seance_duration, currentEvent.day, currentEvent.emploiId, currentEvent.teacherId, currentEvent.adminId, currentEvent.matiereId, currentEvent.salleId, currentEvent.id)
+        sessionService.updateSession(currentEvent.start_hour, currentEvent.start_minute, currentEvent.seance_duration, weekday.indexOf(currentEvent.day) + 1, currentEvent.emploiId, currentEvent.teacherId, currentEvent.adminId, currentEvent.matiereId, currentEvent.salleId, currentEvent.id)
         if (tooltipInstance) {
             tooltipInstance.dispose();
             tooltipInstance = null;
@@ -300,7 +300,7 @@ function Schedules() {
         let start = changeInfo.event._instance.range.start
         let end = changeInfo.event._instance.range.end
         let duration = end.getHours() - start.getHours()
-        sessionService.updateSession(start.getHours() - 1, start.getMinutes(), duration, start.getDay(), changeInfo.event._def.extendedProps.emploiId, changeInfo.event._def.extendedProps.teacherId, changeInfo.event._def.extendedProps.agentId, changeInfo.event._def.extendedProps.matiereId, changeInfo.event._def.extendedProps.roomId, parseInt(changeInfo.event._def.publicId))
+        sessionService.updateSession(start.getHours() - 1, start.getMinutes(), duration, start.getDay(), changeInfo.event._def.extendedProps.emploiId, changeInfo.event._def.extendedProps.teacherId, changeInfo.event._def.extendedProps.adminId, changeInfo.event._def.extendedProps.matiereId, changeInfo.event._def.extendedProps.roomId, parseInt(changeInfo.event._def.publicId))
 
     }
 
@@ -407,7 +407,7 @@ function Schedules() {
                 data.emploiId = session.emploiId
                 data.teacherId = session.teacherId
                 data.teacher = user.data.firstname + " " + user.data.lastname
-                data.agentId = session.agentId
+                data.adminId = session.adminId
                 data.subjectId = session.matiereId
                 data.subject = subjectName
                 scheduleEvents.push(data)

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { allSchedules } from "../../slices/schedules";
-import { allAgents } from "../../slices/users";
+import { allAdmins } from "../../slices/users";
 import { allClasses } from "../../slices/classes";
 import { allSessions } from "../../slices/sessions";
 import scheduleService from "../../services/schedule.service";
@@ -36,7 +36,7 @@ function SchedulesList() {
   const history = useHistory();
 
   const schedulesList = useSelector((state) => state.schedules.schedules);
-  const agentsList = useSelector((state) => state.users.agents);
+  const adminsList = useSelector((state) => state.users.admins);
   const classesList = useSelector((state) => state.classes.classes);
   const sessions = useSelector((state) => state.sessions.sessions);
 
@@ -52,8 +52,8 @@ function SchedulesList() {
       sortable: true,
     },
     {
-      name: "Agent",
-      selector: (row) => row.agentname,
+      name: "Admin",
+      selector: (row) => row.adminname,
       sortable: true,
     },
     {
@@ -98,7 +98,7 @@ function SchedulesList() {
     setdata([]);
     dispatch(allSchedules());
     dispatch(allClasses());
-    dispatch(allAgents());
+    dispatch(allAdmins());
     dispatch(allSessions());
     setProgresBarValue(0);
     generateData();
@@ -138,7 +138,7 @@ function SchedulesList() {
   const generateData = useCallback(() => {
     setdata([]);
     schedulesList.forEach(async (element) => {
-      let agent = await userService.getUser(element.agentId);
+      let admin = await userService.getUser(element.adminId);
       let classeName;
       console.log(element);
       classesList.map((classe) => {
@@ -146,14 +146,14 @@ function SchedulesList() {
           classeName = classe.designation;
         }
       });
-      let name = agent.data.firstname + " " + agent.data.lastname;
+      let name = admin.data.firstname + " " + admin.data.lastname;
       setdata((data) => [
         ...data,
         {
           id: element.id,
           name: element.name,
-          agentname: name,
-          agentId: element.agentId,
+          adminname: name,
+          adminId: element.adminId,
           classeName: classeName,
           classeId: element.classeId,
         },
@@ -189,8 +189,8 @@ function SchedulesList() {
   };
 
   const getUser = async (id) => {
-    let agent = await userService.getUser(id);
-    return agent.data;
+    let admin = await userService.getUser(id);
+    return admin.data;
   };
 
   const handlePDF = async () => {

@@ -1,20 +1,20 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
-import { RouteProps } from "react-router-dom";
 import { useSelector } from "react-redux";
+import ROLES from "../../config/roles";
 
-const PrivateAdminRoute = ({ component: Component, path }) => {
-  const { user: currentUser } = useSelector((state) => state.auth);
-  const { isLoggedIn } = useSelector((state) => state.auth);
+const PrivateAgentRoute = ({ component: Component, path }) => {
+    const { user: currentUser } = useSelector((state) => state.auth);
+    const { isLoggedIn } = useSelector((state) => state.auth);
 
-  if (!isLoggedIn) {
-    return <Redirect to="/login" />;
-  }
-  if (parseInt(currentUser.role) !== 1999) {
-    return <Redirect to="/unauthorizedadmin" />;
-  }
+    if (!isLoggedIn) {
+        return <Redirect to="/login" />;
+    }
+    if (currentUser.role !== ROLES.ADMIN) {
+        return <Redirect to="/unauthorizedagent" />;
+    }
 
-  return <Route component={Component} path={path} />;
+    return <Route component={Component} path={path} />;
 };
 
-export default PrivateAdminRoute;
+export default PrivateAgentRoute;

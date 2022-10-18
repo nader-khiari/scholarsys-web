@@ -1,2 +1,2 @@
-export * from './adminLayout';
+export * from './agentLayout';
 export * from './loginLayout';

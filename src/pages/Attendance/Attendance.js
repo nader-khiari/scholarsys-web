@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { allSchedules } from '../../slices/schedules';
-import { allAgents, allStudentsByClasseId } from '../../slices/users';
+import { allAdmins, allStudentsByClasseId } from '../../slices/users';
 import { allClasses } from '../../slices/classes';
 import { allSessions } from '../../slices/sessions';
 import { allAttendances } from '../../slices/attendance';

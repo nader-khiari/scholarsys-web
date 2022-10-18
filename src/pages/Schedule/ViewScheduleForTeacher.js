@@ -47,7 +47,7 @@ function ViewScheduleForTeacher() {
   const subjectsList = useSelector((state) => state.subjects.subjects);
   const { user: currentUser } = useSelector((state) => state.auth);
   const roomsList = useSelector((state) => state.rooms.rooms);
-  //{title:"",defId:"",publicId:"",extendedProps:{agentId:"",day:"",emploiId:"",matiere:"",matiereId:"",room:"",roomId:"",teacher:"",teacherId:"",seance_duration:"",start_hour:"",start_minute:""}}
+  //{title:"",defId:"",publicId:"",extendedProps:{adminId:"",day:"",emploiId:"",matiere:"",matiereId:"",room:"",roomId:"",teacher:"",teacherId:"",seance_duration:"",start_hour:"",start_minute:""}}
   //const [eventRow, setEventRow] = useState()
   const [events, setevents] = useState([]);
   const [isDisplayed, setIsDisplayed] = useState(false);
@@ -211,7 +211,7 @@ function ViewScheduleForTeacher() {
         data.emploiId = session.emploiId;
         data.teacherId = session.teacherId;
         data.teacher = user.data.firstname + " " + user.data.lastname;
-        data.agentId = session.agentId;
+        data.adminId = session.adminId;
         data.matiereId = session.matiereId;
         data.matiere = subjectName;
         scheduleEvents.push(data);

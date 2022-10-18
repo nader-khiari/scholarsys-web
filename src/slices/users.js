@@ -22,12 +22,12 @@ export const allUsers = createAsyncThunk(
     }
 );
 
-export const allAgents = createAsyncThunk(
-    "users/allAgents",
+export const allAdmins = createAsyncThunk(
+    "users/allAdmins",
     async (thunkAPI) => {
         try {
-            const response = await userService.getAgents()
-            return { agents: response.data };
+            const response = await userService.getAdmins()
+            return { admins: response.data };
         } catch (error) {
             const message =
                 (error.response &&
@@ -102,7 +102,7 @@ export const allStudentsByClasseId = createAsyncThunk(
 
 
 
-const initialState = {users : [], students: [], agents: [], teachers : []};
+const initialState = {users : [], students: [], admins: [], teachers : []};
 
 const usersSlice = createSlice({
     name: "users",
@@ -114,11 +114,11 @@ const usersSlice = createSlice({
         [allUsers.rejected]: (state, action) => {
             state.users = [];
         },
-        [allAgents.fulfilled]: (state, action) => {
-            state.agents = action.payload.agents;
+        [allAdmins.fulfilled]: (state, action) => {
+            state.admins = action.payload.admins;
         },
-        [allAgents.rejected]: (state, action) => {
-            state.agents = [];
+        [allAdmins.rejected]: (state, action) => {
+            state.admins = [];
         },
         [allTeachers.fulfilled]: (state, action) => {
             state.teachers = action.payload.teachers;

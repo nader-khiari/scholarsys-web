@@ -301,7 +301,7 @@ function AddTeacher() {
                                     </Col>
                                     <Col xs={12} sm={6}>
                                         <Form.Group>
-                                            <Form.Label>Agent Image</Form.Label>
+                                            <Form.Label>Admin Image</Form.Label>
                                             <Form.File type="file" className={imageClass} onChange={handleImageChange} />
                                         </Form.Group>
                                     </Col>

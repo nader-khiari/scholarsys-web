@@ -1,16 +1,16 @@
 import React from 'react';
 import { Router, Route } from 'react-router-dom';
 //Import Layouts
-import { AdminLayout, LoginLayout } from '../_components/layouts';
+import { AgentLayout, LoginLayout } from '../_components/layouts';
 import config from 'config';
 
-//Admin Layout
-export const AdminLayoutRoute = ({ component: Component, ...rest }) => {
+//Agent Layout
+export const AgentLayoutRoute = ({ component: Component, ...rest }) => {
     return (
         <Route {...rest} render={matchProps => (
-            <AdminLayout>
+            <AgentLayout>
                 <Component {...matchProps} />
-            </AdminLayout>
+            </AgentLayout>
         )} />
     )
 };

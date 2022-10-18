@@ -145,7 +145,7 @@ const data = [
     },
     { 
         name: 'Gloria Little',
-        position: 'Systems Administrator',
+        position: 'Systems Agentistrator',
         office: 'New York',
         age: '59',
         startDate: '2009/04/10',

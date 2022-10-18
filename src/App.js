@@ -9,18 +9,18 @@ import { allUsers } from "./slices/users";
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
-import PrivateAgentRoute from "./_components/_helpers/PrivateAgentRoute";
+import PrivateAdminRoute from "./_components/_helpers/PrivateAdminRoute";
 import PrivateStudentRoute from "./_components/_helpers/PrivateStudentRoute";
 import PrivateTeacherRoute from "./_components/_helpers/PrivateTeacherRoute";
 import RouteAuthenticated from "./_components/_helpers/RouteAuthenticated";
 import RouteUnauthenticated from "./_components/_helpers/RouteUnauthenticated";
-import PrivateAdminRoute from "./_components/_helpers/PrivateAdminRoute";
+import PrivateAgentRoute from "./_components/_helpers/PrivateAgentRoute";
 
 import Home from "./pages/Home/Home";
 
-import AddAgent from "./pages/Agents/AddAgent";
-import EditAgent from "./pages/Agents/EditAgent";
-import AgentsList from "./pages/Agents/AgentsList";
+import AddAdmin from "./pages/Admins/AddAdmin";
+import EditAdmin from "./pages/Admins/EditAdmin";
+import AdminsList from "./pages/Admins/AdminsList";
 
 import AddTeacher from "./pages/Teachers/AddTeacher";
 import EditTeacher from "./pages/Teachers/EditTeacher";
@@ -356,9 +356,9 @@ function App() {
                   />
 
                   {/* Users Module */}
-                  <Route exact path="/add-agent" component={AddAgent} />
-                  <Route exact path="/edit-agent/:id" component={EditAgent} />
-                  <Route exact path="/agents" component={AgentsList} />
+                  <Route exact path="/add-admin" component={AddAdmin} />
+                  <Route exact path="/edit-admin/:id" component={EditAdmin} />
+                  <Route exact path="/admins" component={AdminsList} />
 
                   {/* Department Module */}
 
@@ -438,12 +438,12 @@ function App() {
                   <Route exact path="/components" component={Components} />
 
                   {/* Forms Module */}
-                  {/*  <PrivateAgentRoute exact path="/form-basic-inputs" component={FormBasicInput} />
-                  <PrivateAgentRoute exact path="/form-horizontal" component={FormHorizontal} />
-                  <PrivateAgentRoute exact path="/form-input-groups" component={FormInputGroups} />
-                  <PrivateAgentRoute exact path="/form-mask" component={FormMask} />
-                  <PrivateAgentRoute exact path="/form-validation" component={FormValidation} />
-                  <PrivateAgentRoute exact path="/form-vertical" component={FormVertical} /> */}
+                  {/*  <PrivateAdminRoute exact path="/form-basic-inputs" component={FormBasicInput} />
+                  <PrivateAdminRoute exact path="/form-horizontal" component={FormHorizontal} />
+                  <PrivateAdminRoute exact path="/form-input-groups" component={FormInputGroups} />
+                  <PrivateAdminRoute exact path="/form-mask" component={FormMask} />
+                  <PrivateAdminRoute exact path="/form-validation" component={FormValidation} />
+                  <PrivateAdminRoute exact path="/form-vertical" component={FormVertical} /> */}
 
                   {/* Tables Module */}
                   <Route exact path="/tables-basic" component={TablesBasic} />

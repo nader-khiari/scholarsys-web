@@ -2,7 +2,7 @@ import React from 'react';
 // Import Component
 import { Sidebar, Header, Footer } from '../../../_components';
 
-class AdminLayout extends React.Component {
+class AgentLayout extends React.Component {
     render() {
         return (
             <div className="main-wrapper">
@@ -20,4 +20,4 @@ class AdminLayout extends React.Component {
         )
     }
 }
-export { AdminLayout };
+export { AgentLayout };

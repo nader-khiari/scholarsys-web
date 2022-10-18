@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { allAgents } from '../../slices/users';
+import { allAdmins } from '../../slices/users';
 import userService from '../../services/user.service';
 import { useHistory } from 'react-router-dom'
 
@@ -23,7 +23,7 @@ let data2 = []
 
 
 
-function AgentsList() {
+function AdminsList() {
     const dispatch = useDispatch()
     const [isDisplayed, setIsDisplayed] = useState(false);
     const [progresBarValue, setProgresBarValue] = useState(0)
@@ -31,7 +31,7 @@ function AgentsList() {
 
 
 
-    const usersList = useSelector((state) => state.users.agents)
+    const usersList = useSelector((state) => state.users.admins)
 
     const columns = [
         {
@@ -73,14 +73,14 @@ function AgentsList() {
             name: 'Action',
             selector: row => row.id,
             sortable: true,
-            cell: (row) => <div><button className="btn btn-sm bg-success-light me-2" onClick={() => history.push('/edit-agent/' + row.id)}>
+            cell: (row) => <div><button className="btn btn-sm bg-success-light me-2" onClick={() => history.push('/edit-admin/' + row.id)}>
                 <FontAwesomeIcon icon={faPencilAlt} /> </button> <button className="btn btn-sm bg-danger-light" onClick={() => deleteUser(row)}> <FontAwesomeIcon icon={faTrash} /> </button></div>
         }
     ];
 
     useEffect(() => {
         console.log(usersList)
-        dispatch(allAgents())
+        dispatch(allAdmins())
         data = usersList
         setProgresBarValue(0)
         setTimeout(() => {
@@ -116,7 +116,7 @@ function AgentsList() {
     }
 
     const addUser = () => {
-        history.push('/add-agent')
+        history.push('/add-admin')
     }
 
 
@@ -142,10 +142,10 @@ function AgentsList() {
                 <div className="page-header">
                     <Row>
                         <Col className="col">
-                            <h3 className="page-title">Agents</h3>
+                            <h3 className="page-title">Admins</h3>
                             <ul className="breadcrumb">
                                 <li className="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                                <li className="breadcrumb-item active">Agents</li>
+                                <li className="breadcrumb-item active">Admins</li>
                             </ul>
                         </Col>
                         <Col className="col-auto text-end float-right ms-auto">
@@ -165,7 +165,7 @@ function AgentsList() {
     )
 }
 
-export default AgentsList
+export default AdminsList
 
 /* class UsersList extends React.Component {
     constructor(props) {

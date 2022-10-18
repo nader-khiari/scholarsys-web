@@ -9,12 +9,12 @@ const getAllSchedules = () => {
             return response.data
         })
 }
-const addSchedule = (name,agentId,classeId) => {
+const addSchedule = (name,adminId,classeId) => {
     return axios
         .post(API_URL + "/",{
             name,
             classeId,
-            agentId
+            adminId
         })
         .then((res)=> {
             return res.data

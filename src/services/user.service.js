@@ -132,11 +132,11 @@ const getStudentsByClasseId = (id) => {
   });
 };
 
-const getAgents = () => {
+const getAdmins = () => {
   const requestOptions = {
     method: "GET",
   };
-  return axios.get(API_URL + "user/agents", requestOptions);
+  return axios.get(API_URL + "user/admins", requestOptions);
 };
 
 const addClass = (id, classeId) => {
@@ -178,7 +178,7 @@ const userService = {
   editUser,
   getTeachers,
   getStudents,
-  getAgents,
+  getAdmins,
   getStudentsByClasseId,
   addClass,
   updateSalary,

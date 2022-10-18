@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 // import { history } from "../../src/_components/_helpers";
-import { AdminLayoutRoute, LoginLayoutRoute } from "./routerLayout";
+import { AgentLayoutRoute, LoginLayoutRoute } from "./routerLayout";
 
 import {
   // Authentication Modules

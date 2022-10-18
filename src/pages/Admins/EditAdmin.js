@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import userService from '../../services/user.service';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 // Import Components
 import { Row, Col, Card, Form, Button } from "react-bootstrap";
+import userService from '../../services/user.service';
 
 import { useHistory } from 'react-router-dom';
 
-import toast, { Toaster } from 'react-hot-toast';
 
 
-function AddAgent() {
-
-    const history= useHistory()
+function EditAdmin() {
+    const history = useHistory()
 
     const [firstNameClassName, setFirstNameClassName] = useState("form-control is-invalid")
     const [lastNameClassName, setLastNameClassName] = useState("form-control is-invalid")
@@ -18,18 +17,19 @@ function AddAgent() {
     const [emailClassName, setEmailClassName] = useState("form-control is-invalid")
     const [passwordClassName, setPasswordClassName] = useState("form-control is-invalid")
     const [phoneNumberClass, setPhoneNumberClass] = useState("form-control is-invalid")
-    const [imageClass, setImageClass] = useState("form-control is-invalid")
 
+
+    const userId = useParams()
+
+    const [phoneNumber, setPhoneNumber] = useState(0)
     const [firstname, setFirstName] = useState("")
     const [lastname, setLastName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [birthDate, setBirthDate] = useState(Date())
-    const [phoneNumber, setPhoneNumber] = useState(0)
-    const [image, setImage] = useState()
-    const [role, setRole] = useState(987)
 
     useEffect(() => {
+        getUser(userId.id)
     }, [])
 
     useEffect(() => {
@@ -41,6 +41,15 @@ function AddAgent() {
         }
         console.log(firstname)
     }, [firstname])
+
+    useEffect(() => {
+        if (isValidNumber(phoneNumber)) {
+            setPhoneNumberClass("form-control is-valid")
+        } else {
+            setPhoneNumberClass("form-control is-invalid")
+        }
+        console.log(phoneNumber)
+    }, [phoneNumber])
 
     useEffect(() => {
         if (lastname === "" || lastname === null || lastname === undefined || lastname.length < 3) {
@@ -69,6 +78,7 @@ function AddAgent() {
         else {
             setEmailClassName("form-control is-valid")
         }
+        console.log(email)
     }, [email])
 
 
@@ -81,22 +91,6 @@ function AddAgent() {
         }
         console.log(password)
     }, [password])
-
-    useEffect(() => {
-        if (image != null) {
-            setImageClass("form-control is-valid")
-        } else {
-            setImageClass("form-control is-invalid")
-        }
-    }, [image])
-
-    useEffect(() => {
-        if (isValidNumber(phoneNumber)) {
-            setPhoneNumberClass("form-control is-valid")
-        } else {
-            setPhoneNumberClass("form-control is-invalid")
-        }
-    }, [phoneNumber])
 
     const handleFirstNameChange = (e) => {
         setFirstName(e.target.value)
@@ -118,14 +112,9 @@ function AddAgent() {
         setBirthDate(e.target.value)
     }
 
-    const handleImageChange = (e) => {
-        setImage(e.target.files[0])
-    }
-
     const handlephoneNumberChange = (e) => {
         setPhoneNumber(e.target.value)
     }
-
 
     function isValidEmail(email) {
         return /\S+@\S+\.\S+/.test(email);
@@ -135,33 +124,38 @@ function AddAgent() {
         return /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(password)
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        if (firstNameClassName === "form-control is-invalid" || emailClassName === "form-control is-invalid" || passwordClassName === 'form-control is-invalid' || lastNameClassName === "form-control is-invalid" || birthDateClassName === "form-control is-invalid" || phoneNumberClass === "form-control is-invalid" || imageClass === "form-control is-invalid") {
-            toast.error("There is an error. Please re-enter your information")
-        } else {
-            toast.success("Success. user must confirm his account via e-mail")
-            userService.register(firstname, lastname, phoneNumber, birthDate, image, email, password, role)
-            setTimeout(() => {
-                history.push("/agents")
-            }, 4000);
-        }
-    }
-
     function isValidNumber(number) {
         return /^[0-9]{8}$/.test(number)
     }
+
+
+    async function getUser(id) {
+        let user = await userService.getUser(id)
+        setFirstName(user.data.firstname)
+        setLastName(user.data.lastname)
+        setEmail(user.data.email)
+        setPassword(user.data.password)
+        setBirthDate(user.data.birthDate)
+        setPhoneNumber(user.data.phoneNumber)
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        userService.editUser(userId.id, firstname, lastname, email, password, birthDate, phoneNumber)
+        setTimeout(() => {
+            history.push('/admins')
+        }, 1200);
+    }
+
     return (
         <div>
-            <Toaster position="top-right"
-                reverseOrder={false} />
             <div className="page-header">
                 <Row>
                     <Col sm={12}>
-                        <h3 className="page-title">Add Agent</h3>
+                        <h3 className="page-title">Edit Admin</h3>
                         <ul className="breadcrumb">
-                            <li className="breadcrumb-item"><a href="">Agents</a></li>
-                            <li className="breadcrumb-item active">Edit Agents</li>
+                            <li className="breadcrumb-item"><a href="">Admins</a></li>
+                            <li className="breadcrumb-item active">Edit Admins</li>
                         </ul>
                     </Col>
                 </Row>
@@ -174,7 +168,7 @@ function AddAgent() {
                             <Form>
                                 <Row>
                                     <Col sm={12}>
-                                        <h5 className="form-title"><span>Agent Information</span></h5>
+                                        <h5 className="form-title"><span>Admin Information</span></h5>
                                     </Col>
 
                                     <Col xs={12} sm={6}>
@@ -189,7 +183,12 @@ function AddAgent() {
                                             <Form.Control type="text" className={lastNameClassName} defaultValue={lastname} onChange={handleLastNameChange} />
                                         </Form.Group>
                                     </Col>
-
+                                    <Col xs={12} sm={6}>
+                                        <Form.Group>
+                                            <Form.Label>User Id</Form.Label>
+                                            <Form.Control disabled type="text" defaultValue={userId.id} />
+                                        </Form.Group>
+                                    </Col>
                                     <Col xs={12} sm={6}>
                                         <Form.Group>
                                             <Form.Label>Date of Birth</Form.Label>
@@ -199,7 +198,7 @@ function AddAgent() {
                                     <Col xs={12} sm={6}>
                                         <Form.Group>
                                             <Form.Label>Phone Number</Form.Label>
-                                            <Form.Control type="number" className={phoneNumberClass} defaultValue={phoneNumber} onChange={handlephoneNumberChange} />
+                                            <Form.Control type="number" className={phoneNumberClass} value={phoneNumber} onChange={handlephoneNumberChange} />
                                         </Form.Group>
                                     </Col>
                                     <Col xs={12} sm={6}>
@@ -214,12 +213,12 @@ function AddAgent() {
                                             <Form.Control type="text" className={passwordClassName} defaultValue={password} onChange={handlePasswordChange} required />
                                         </Form.Group>
                                     </Col>
-                                    <Col xs={12} sm={6}>
+                                    {/*  <Col xs={12} sm={6}>
                                         <Form.Group>
-                                            <Form.Label>Agent Image</Form.Label>
-                                            <Form.File type="file" className={imageClass} onChange={handleImageChange} />
+                                            <Form.Label>Admin Image</Form.Label>
+                                            <Form.File className="form-control" />
                                         </Form.Group>
-                                    </Col>
+                                    </Col> */}
                                     <Col xs={12}>
                                         <Button variant="primary" type="submit" onClick={handleSubmit}>
                                             Submit
@@ -235,4 +234,4 @@ function AddAgent() {
     )
 }
 
-export default AddAgent
+export default EditAdmin
