@@ -19,11 +19,11 @@ import { logout } from "../../slices/auth";
 
 import { Link, Redirect } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import ROLES from "../../config/roles";
+import ACCOUNT_TYPES from "../../config/accountTypes";
 
 function Header(props) {
     const { user: currentUser } = useSelector((state) => state.auth);
-    const [role, setrole] = useState("");
+    const [accountType, setaccountType] = useState("");
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -33,18 +33,18 @@ function Header(props) {
     };
 
     useEffect(() => {
-        switch (currentUser.role) {
-            case ROLES.AGENT:
-                setrole("Agent");
+        switch (currentUser.accountType) {
+            case ACCOUNT_TYPES.AGENT:
+                setaccountType("Agent");
                 break;
-            case ROLES.STUDENT:
-                setrole("Student");
+            case ACCOUNT_TYPES.STUDENT:
+                setaccountType("Student");
                 break;
-            case ROLES.TEACHER:
-                setrole("Teacher");
+            case ACCOUNT_TYPES.TEACHER:
+                setaccountType("Teacher");
                 break;
-            case ROLES.ADMIN:
-                setrole("Admin");
+            case ACCOUNT_TYPES.ADMIN:
+                setaccountType("Admin");
                 break;
             default:
                 break;
@@ -340,7 +340,7 @@ function Header(props) {
                                         {currentUser.firstname}{" "}
                                         {currentUser.lastname}
                                     </h6>
-                                    <p className="text-muted mb-0">{role}</p>
+                                    <p className="text-muted mb-0">{accountType}</p>
                                 </div>
                             </div>
                             <Dropdown.Item

@@ -6,7 +6,7 @@ import { Row, Col, Card, Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 
 import toast, { Toaster } from "react-hot-toast";
-import ROLES from "../../config/roles";
+import ACCOUNT_TYPES from "../../config/accountTypes";
 
 function AddAdmin() {
     const history = useHistory();
@@ -38,7 +38,7 @@ function AddAdmin() {
     const [birthDate, setBirthDate] = useState(Date());
     const [phoneNumber, setPhoneNumber] = useState(0);
     const [image, setImage] = useState();
-    const [role, setRole] = useState(ROLES.ADMIN);
+    const [accountType, setAccountType] = useState(ACCOUNT_TYPES.ADMIN);
 
     useEffect(() => {}, []);
 
@@ -172,7 +172,7 @@ function AddAdmin() {
                 image,
                 email,
                 password,
-                role
+                accountType
             );
             setTimeout(() => {
                 history.push("/admins");

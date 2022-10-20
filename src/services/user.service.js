@@ -44,7 +44,7 @@ const register = (
   image,
   email,
   password,
-  role,
+  accountType,
   salaire,
   classe
 ) => {
@@ -56,7 +56,7 @@ const register = (
   formData.append("image", image);
   formData.append("email", email);
   formData.append("password", password);
-  formData.append("role", role);
+  formData.append("accountType", accountType);
   formData.append("salary", salaire);
   formData.append("classeId", classe);
   console.log(classe + " aaaaaaaaaaaaaaaaaaaaa");

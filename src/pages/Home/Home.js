@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux/es/exports";
-import ROLES from "../../config/roles";
+import ACCOUNT_TYPES from "../../config/accountTypes";
 
 function Home() {
     const { user: currentUser } = useSelector((state) => state.auth);
-    const [userRole, setUserRole] = useState("");
+    const [userAccountType, setUserAccountType] = useState("");
 
     useEffect(() => {
-        switch (currentUser.role) {
-            case ROLES.STUDENT:
-                setUserRole("Student");
+        switch (currentUser.accountType) {
+            case ACCOUNT_TYPES.STUDENT:
+                setUserAccountType("Student");
                 break;
-            case ROLES.TEACHER:
-                setUserRole("Teacher");
+            case ACCOUNT_TYPES.TEACHER:
+                setUserAccountType("Teacher");
                 break;
-            case ROLES.ADMIN:
-                setUserRole("Admin");
+            case ACCOUNT_TYPES.ADMIN:
+                setUserAccountType("Admin");
                 break;
-            case ROLES.AGENT:
-                setUserRole("Agent");
+            case ACCOUNT_TYPES.AGENT:
+                setUserAccountType("Agent");
                 break;
             default:
                 break;
@@ -43,7 +43,7 @@ function Home() {
                     website.
                     <br />
                     <br />
-                    Your are logged in as a {userRole}.
+                    Your are logged in as a {userAccountType}.
                 </Col>
             </Row>
         </div>

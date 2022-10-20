@@ -2,7 +2,7 @@ import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import { RouteProps } from "react-router-dom";
 import { useSelector } from "react-redux";
-import ROLES from "../../config/roles";
+import ACCOUNT_TYPES from "../../config/accountTypes";
 
 const PrivateStudentRoute = ({ component: Component, path }) => {
     const { user: currentUser } = useSelector((state) => state.auth);
@@ -12,7 +12,7 @@ const PrivateStudentRoute = ({ component: Component, path }) => {
         return <Redirect to="/login" />;
     }
 
-    if (currentUser.role === ROLES.STUDENT) {
+    if (currentUser.accountType === ACCOUNT_TYPES.STUDENT) {
         return <Redirect to="/unauthorizedstudent" />;
     }
 

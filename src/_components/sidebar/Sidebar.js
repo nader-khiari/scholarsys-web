@@ -32,7 +32,7 @@ import {
 import { faSquarespace } from "@fortawesome/free-brands-svg-icons";
 
 import { useSelector } from "react-redux";
-import ROLES from "../../config/roles";
+import ACCOUNT_TYPES from "../../config/accountTypes";
 
 function Sidebar() {
     const [pathname, setPathname] = useState(
@@ -42,7 +42,7 @@ function Sidebar() {
     const { user: currentUser } = useSelector((state) => state.auth);
 
     useEffect(() => {
-        if (currentUser.role === null) {
+        if (currentUser.accountType === null) {
             <Link to="/login" />;
         }
     }, [currentUser]);
@@ -102,7 +102,7 @@ function Sidebar() {
 	} */
 
     console.log(currentUser);
-    if (currentUser.role === ROLES.ADMIN) {
+    if (currentUser.accountType === ACCOUNT_TYPES.ADMIN) {
         return (
             <div className="sidebar" id="sidebar">
                 <Scrollbars style={{ height: "100vh" }}>
@@ -703,7 +703,7 @@ function Sidebar() {
                 </Scrollbars>
             </div>
         );
-    } else if (currentUser.role === ROLES.STUDENT) {
+    } else if (currentUser.accountType === ACCOUNT_TYPES.STUDENT) {
         return (
             <div className="sidebar" id="sidebar">
                 <Scrollbars style={{ height: "100vh" }}>
@@ -730,7 +730,7 @@ function Sidebar() {
                 </Scrollbars>
             </div>
         );
-    } else if (currentUser.role === ROLES.TEACHER) {
+    } else if (currentUser.accountType === ACCOUNT_TYPES.TEACHER) {
         return (
             <div className="sidebar" id="sidebar">
                 <Scrollbars style={{ height: "100vh" }}>
@@ -794,7 +794,7 @@ function Sidebar() {
                 </Scrollbars>
             </div>
         );
-    } else if (currentUser.role === ROLES.AGENT) {
+    } else if (currentUser.accountType === ACCOUNT_TYPES.AGENT) {
         return (
             <div className="sidebar" id="sidebar">
                 <Scrollbars style={{ height: "100vh" }}>

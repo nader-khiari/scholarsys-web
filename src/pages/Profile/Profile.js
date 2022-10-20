@@ -26,7 +26,7 @@ import { allSchedules } from "../../slices/schedules";
 import { update } from "../../slices/auth";
 
 import scheduleService from "../../services/schedule.service";
-import ROLES from "../../config/roles";
+import ACCOUNT_TYPES from "../../config/accountTypes";
 
 function Profile() {
     const dispatch = useDispatch();
@@ -36,7 +36,7 @@ function Profile() {
     const schedules = useSelector((state) => state.schedules.schedules);
 
     const { user: currentUser } = useSelector((state) => state.auth);
-    const [userRole, setUserRole] = useState("");
+    const [userAccountType, setUserAccountType] = useState("");
 
     const [firstNameClassName, setFirstNameClassName] = useState(
         "form-control is-invalid"
@@ -81,18 +81,18 @@ function Profile() {
             JSON.parse(JSON.parse(currentUser.specificData)) || {};
         setclassId(id);
 
-        switch (currentUser.role) {
-            case ROLES.STUDENT:
-                setUserRole("Student");
+        switch (currentUser.accountType) {
+            case ACCOUNT_TYPES.STUDENT:
+                setUserAccountType("Student");
                 break;
-            case ROLES.TEACHER:
-                setUserRole("Teacher");
+            case ACCOUNT_TYPES.TEACHER:
+                setUserAccountType("Teacher");
                 break;
-            case ROLES.ADMIN:
-                setUserRole("Admin");
+            case ACCOUNT_TYPES.ADMIN:
+                setUserAccountType("Admin");
                 break;
-            case ROLES.AGENT:
-                setUserRole("Agent");
+            case ACCOUNT_TYPES.AGENT:
+                setUserAccountType("Agent");
                 break;
             default:
                 break;
@@ -266,7 +266,7 @@ function Profile() {
                                     {currentUser.firstname}{" "}
                                     {currentUser.lastname}
                                 </h4>
-                                <h6 className="text-muted">{userRole}</h6>
+                                <h6 className="text-muted">{userAccountType}</h6>
                             </div>
                         </div>
                     </div>
@@ -411,7 +411,7 @@ function Profile() {
                                         </Card.Body>
                                     </Card>
 
-                                    {userRole === "Student" && (
+                                    {userAccountType === "Student" && (
                                         <Card>
                                             <Card.Body>
                                                 <Card.Title className="d-flex justify-content-between">
@@ -429,7 +429,7 @@ function Profile() {
                                         </Card>
                                     )}
 
-                                    {userRole === "Teacher" && (
+                                    {userAccountType === "Teacher" && (
                                         <Card>
                                             <Card.Body>
                                                 <Card.Title className="d-flex justify-content-between">
