@@ -9,6 +9,8 @@ import { login } from "../../slices/auth";
 import { clearMessage } from "../../slices/message";
 import { useHistory } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import ACCOUNT_TYPES from "../../config/accountTypes";
+import { Footer } from "../../_components/footer/Footer";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -42,13 +44,16 @@ function Login() {
     e.preventDefault();
     dispatch(login({ email, password }))
       .unwrap()
-      .then(() => {
-        history.push("/profile");
+      .then((d) => {
+        console.log("USEEEEER", d.data?.data?.user?.accountType);
+        console.log("USEEEEER", d.data?.user?.accountType);
+        console.log(ACCOUNT_TYPES.STUDENT === d.data?.user?.accountType);
+        history.push("/dashboard");
       })
       .catch((e) => {
+        console.log(e);
         toast.error("There is an error. Please re-enter your information");
       });
-    console.log(message);
   };
 
   return (
@@ -126,6 +131,10 @@ function Login() {
               </div>
             </div>
           </div>
+        </div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          {" "}
+          <Footer />
         </div>
       </div>
     </div>

@@ -43,12 +43,14 @@ const register = (
   birthDate,
   image,
   email,
+  gender,
   password,
   accountType,
   salaire,
   classe
 ) => {
   var formData = new FormData();
+  formData.append("gender", gender);
   formData.append("firstname", firstname);
   formData.append("lastname", lastname);
   formData.append("phoneNumber", phoneNumber);

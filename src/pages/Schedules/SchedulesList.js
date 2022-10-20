@@ -57,6 +57,16 @@ function SchedulesList() {
       sortable: true,
     },
     {
+      name: "Satrt Date",
+      selector: (row) => new Date(row.startDate).toLocaleDateString("en-GB"),
+      sortable: true,
+    },
+    {
+      name: "End Date",
+      selector: (row) => new Date(row.endDate).toLocaleDateString("en-GB"),
+      sortable: true,
+    },
+    {
       name: "Download",
       selector: (row) => row,
       cell: (row) => (
@@ -86,7 +96,6 @@ function SchedulesList() {
             className="btn btn-sm bg-danger-light"
             onClick={() => deleteSchedule(row)}
           >
-            {" "}
             <FontAwesomeIcon icon={faTrash} />{" "}
           </button>
         </div>
@@ -156,6 +165,8 @@ function SchedulesList() {
           adminId: element.adminId,
           classeName: classeName,
           classeId: element.classeId,
+          startDate: element.startDate,
+          endDate: element.endDate,
         },
       ]);
     });
@@ -231,7 +242,7 @@ function SchedulesList() {
             <Col className="col-auto text-end float-right ms-auto">
               <button className="btn btn-primary" onClick={handlePDF}>
                 <FontAwesomeIcon icon={faPencilAlt} />
-              </button>{" "}
+              </button>
               &nbsp; &nbsp;
               <button className="btn btn-primary" onClick={addSchedule}>
                 <FontAwesomeIcon icon={faPlus} />

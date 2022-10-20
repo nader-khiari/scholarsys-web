@@ -6,9 +6,9 @@ import { useSelector } from "react-redux";
 const RouteUnauthenticated = ({ component: Component, path }) => {
   const { isLoggedIn } = useSelector((state) => state.auth);
 
-  if (isLoggedIn) {
-    return <Redirect to="/home" />;
-  }
+  // if (isLoggedIn) {
+  //   return <Redirect to="/home" />;
+  // }
   return <Route component={Component} path={path} />;
 };
 
