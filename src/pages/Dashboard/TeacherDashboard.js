@@ -365,7 +365,11 @@ function TeacherDashboard() {
         selector: (row) => (
           <Media className="user-dt">
             <img
-              src={require("../../assets/user_images/" + row.image)}
+              src={
+                process.env.REACT_APP_API_URL +
+                "/static/users_images/" +
+                +row.image
+              }
               className="avatar-img rounded-circle avatar avatar-sm me-2"
             />
             <Media.Body>{row.firstname + " " + row.lastname}</Media.Body>
@@ -426,7 +430,11 @@ function TeacherDashboard() {
           objet = (
             <Media className="user-dt">
               <img
-                src={require("../../assets/user_images/" + etudiant.image)}
+                src={
+                  process.env.REACT_APP_API_URL +
+                  "/static/users_images/" +
+                  +etudiant.image
+                }
                 className="avatar-img rounded-circle avatar avatar-sm me-2"
               />
               <Media.Body>
