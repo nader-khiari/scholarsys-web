@@ -4,7 +4,6 @@ import $ from "jquery";
 import { history } from "../_helpers";
 import { Link } from "react-router-dom";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faThLarge,
   faUserGraduate,
@@ -33,6 +32,7 @@ import { faSquarespace } from "@fortawesome/free-brands-svg-icons";
 
 import { useSelector } from "react-redux";
 import ACCOUNT_TYPES from "../../config/accountTypes";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Sidebar() {
   const [pathname, setPathname] = useState(
@@ -92,7 +92,7 @@ function Sidebar() {
     init();
   }, []);
 
-  let pathnames = window.location.pathname;
+  let pathnames = window.location.pathname.split("/");
   const exclusionArray = ["/", "/register", "/forgot-password", "/error"];
   /* if (exclusionArray.indexOf(location.pathname) >= 0) {
 		return '';
@@ -109,58 +109,20 @@ function Sidebar() {
                 <li className="menu-title">
                   <span>Main Menu</span>
                 </li>
-                <li
-                  className={
-                    pathnames.includes("/react/dashboard") ||
-                    pathnames.includes("/react/teacher-dashboard") ||
-                    pathnames.includes("/react/student-dashboard")
-                      ? "active"
-                      : ""
-                  }
-                >
-                  <a href="#">
-                    <FontAwesomeIcon icon={faThLarge} /> <span>Dashboard</span>{" "}
-                    <span className="menu-arrow"></span>
-                  </a>
-
-                  <ul>
-                    <li
-                      className={
-                        pathnames.includes("/react/dashboard") ? "active" : ""
-                      }
-                    >
-                      <Link to="/dashboard">Agent Dashboard</Link>
-                    </li>
-                    <li
-                      className={
-                        pathnames.includes("/react/teacher-dashboard")
-                          ? "active"
-                          : ""
-                      }
-                    >
-                      <Link to="/teacher-dashboard">Teacher Dashboard</Link>
-                    </li>
-                    <li
-                      className={
-                        pathnames.includes("/react/student-dashboard")
-                          ? "active"
-                          : ""
-                      }
-                    >
-                      <Link to="/student-dashboard">Student Dashboard</Link>
-                    </li>
-                  </ul>
+                <li className={pathnames.includes("dashboard") ? "active" : ""}>
+                  <Link to="/dashboard">
+                    <FontAwesomeIcon icon={faThLarge} /> <span>Dashboard</span>
+                  </Link>
                 </li>
-
                 <li
                   className={`submenu ${
-                    pathnames.includes("/react/students")
+                    pathnames.includes("students")
                       ? "active"
-                      : pathnames.includes("/react/student-details")
+                      : pathnames.includes("student-details")
                       ? "active"
-                      : pathnames.includes("/react/add-student")
+                      : pathnames.includes("add-student")
                       ? "active"
-                      : pathnames.includes("/react/edit-student")
+                      : pathnames.includes("edit-student")
                       ? "active"
                       : ""
                   }`}
@@ -171,18 +133,16 @@ function Sidebar() {
                   </a>
                   <ul>
                     <li
-                      className={
-                        pathnames.includes("/react/students") ? "active" : ""
-                      }
+                      className={pathnames.includes("students") ? "active" : ""}
                     >
                       <Link to="/students">Student List</Link>
                     </li>
-                    {/* <li className={pathnames.includes('/react/student-details') ? 'active' : ''}>
+                    {/* <li className={pathnames.includes('/student-details') ? 'active' : ''}>
 										<Link to="/student-details">Student View</Link>
 									</li> */}
                     <li
                       className={
-                        pathnames.includes("/react/add-student") ? "active" : ""
+                        pathnames.includes("add-student") ? "active" : ""
                       }
                     >
                       <Link to="/add-student">Student Add</Link>
@@ -191,13 +151,13 @@ function Sidebar() {
                 </li>
                 <li
                   className={`submenu ${
-                    pathnames.includes("/react/teachers")
+                    pathnames.includes("teachers")
                       ? "active"
-                      : pathnames.includes("/react/teacher-details")
+                      : pathnames.includes("teacher-details")
                       ? "active"
-                      : pathnames.includes("/react/add-teacher")
+                      : pathnames.includes("add-teacher")
                       ? "active"
-                      : pathnames.includes("/react/edit-teacher")
+                      : pathnames.includes("edit-teacher")
                       ? "active"
                       : ""
                   }`}
@@ -208,16 +168,14 @@ function Sidebar() {
                   </a>
                   <ul>
                     <li
-                      className={
-                        pathnames.includes("/react/teachers") ? "active" : ""
-                      }
+                      className={pathnames.includes("teachers") ? "active" : ""}
                     >
                       <Link to="/teachers">Teacher List</Link>
                     </li>
 
                     <li
                       className={
-                        pathnames.includes("/react/add-teacher") ? "active" : ""
+                        pathnames.includes("add-teacher") ? "active" : ""
                       }
                     >
                       <Link to="/add-teacher">Teacher Add</Link>
@@ -226,13 +184,13 @@ function Sidebar() {
                 </li>
                 <li
                   className={`submenu ${
-                    pathnames.includes("/react/admins")
+                    pathnames.includes("admins")
                       ? "active"
-                      : pathnames.includes("/react/admin-details")
+                      : pathnames.includes("admin-details")
                       ? "active"
-                      : pathnames.includes("/react/add-admin")
+                      : pathnames.includes("add-admin")
                       ? "active"
-                      : pathnames.includes("/react/edit-admin")
+                      : pathnames.includes("edit-admin")
                       ? "active"
                       : ""
                   }`}
@@ -243,17 +201,13 @@ function Sidebar() {
                   </a>
                   <ul>
                     <li
-                      className={
-                        pathnames.includes("/react/teacher-details")
-                          ? "active"
-                          : ""
-                      }
+                      className={pathnames.includes("admins") ? "active" : ""}
                     >
                       <Link to="/admins">Staff List</Link>
                     </li>
                     <li
                       className={
-                        pathnames.includes("/react/add-teacher") ? "active" : ""
+                        pathnames.includes("add-admins") ? "active" : ""
                       }
                     >
                       <Link to="/add-admin">Staff Add</Link>
@@ -263,13 +217,9 @@ function Sidebar() {
 
                 <li
                   className={`submenu ${
-                    pathnames.includes("/schedules-list")
+                    pathnames.includes("schedules-list")
                       ? "active"
-                      : pathnames.includes("/react/admin-details")
-                      ? "active"
-                      : pathnames.includes("/react/add-admin")
-                      ? "active"
-                      : pathnames.includes("/react/edit-admin")
+                      : pathnames.includes("admin-schedule")
                       ? "active"
                       : ""
                   }`}
@@ -281,16 +231,14 @@ function Sidebar() {
                   <ul>
                     <li
                       className={
-                        pathnames.includes("/react/teacher-details")
-                          ? "active"
-                          : ""
+                        pathnames.includes("schedules-list") ? "active" : ""
                       }
                     >
                       <Link to="/schedules-list">Schedules List</Link>
                     </li>
                     <li
                       className={
-                        pathnames.includes("/react/add-teacher") ? "active" : ""
+                        pathnames.includes("add-schedule") ? "active" : ""
                       }
                     >
                       <Link to="/add-schedule">Schedule Add</Link>
@@ -300,11 +248,11 @@ function Sidebar() {
 
                 <li
                   className={`submenu ${
-                    pathnames.includes("/react/formations")
+                    pathnames.includes("formations")
                       ? "active"
-                      : pathnames.includes("/react/add-formation")
+                      : pathnames.includes("add-formation")
                       ? "active"
-                      : pathnames.includes("/react/edit-formation")
+                      : pathnames.includes("edit-formation")
                       ? "active"
                       : ""
                   }`}
@@ -317,16 +265,14 @@ function Sidebar() {
                   <ul>
                     <li
                       className={
-                        pathnames.includes("/react/formations") ? "active" : ""
+                        pathnames.includes("formations") ? "active" : ""
                       }
                     >
                       <Link to="/formations">Formation List</Link>
                     </li>
                     <li
                       className={
-                        pathnames.includes("/react/add-formation")
-                          ? "active"
-                          : ""
+                        pathnames.includes("add-formation") ? "active" : ""
                       }
                     >
                       <Link to="/add-formation">Formation Add</Link>
@@ -335,11 +281,11 @@ function Sidebar() {
                 </li>
                 <li
                   className={`submenu ${
-                    pathnames.includes("/react/levels")
+                    pathnames.includes("levels")
                       ? "active"
-                      : pathnames.includes("/react/add-level")
+                      : pathnames.includes("add-level")
                       ? "active"
-                      : pathnames.includes("/react/edit-level")
+                      : pathnames.includes("edit-level")
                       ? "active"
                       : ""
                   }`}
@@ -350,15 +296,13 @@ function Sidebar() {
                   </a>
                   <ul>
                     <li
-                      className={
-                        pathnames.includes("/react/levels") ? "active" : ""
-                      }
+                      className={pathnames.includes("levels") ? "active" : ""}
                     >
                       <Link to="/levels">Levels List</Link>
                     </li>
                     <li
                       className={
-                        pathnames.includes("/react/add-level") ? "active" : ""
+                        pathnames.includes("add-level") ? "active" : ""
                       }
                     >
                       <Link to="/add-level">Add Level</Link>
@@ -367,11 +311,11 @@ function Sidebar() {
                 </li>
                 <li
                   className={`submenu ${
-                    pathnames.includes("/react/classes")
+                    pathnames.includes("classes")
                       ? "active"
-                      : pathnames.includes("/react/add-class")
+                      : pathnames.includes("add-class")
                       ? "active"
-                      : pathnames.includes("/react/edit-class")
+                      : pathnames.includes("edit-class")
                       ? "active"
                       : ""
                   }`}
@@ -382,15 +326,13 @@ function Sidebar() {
                   </a>
                   <ul>
                     <li
-                      className={
-                        pathnames.includes("/react/classes") ? "active" : ""
-                      }
+                      className={pathnames.includes("classes") ? "active" : ""}
                     >
                       <Link to="/classes">Class List</Link>
                     </li>
                     <li
                       className={
-                        pathnames.includes("/react/add-class") ? "active" : ""
+                        pathnames.includes("add-class") ? "active" : ""
                       }
                     >
                       <Link to="/add-class">Add Class</Link>
@@ -399,11 +341,11 @@ function Sidebar() {
                 </li>
                 <li
                   className={`submenu ${
-                    pathnames.includes("/react/subjects")
+                    pathnames.includes("subjects")
                       ? "active"
-                      : pathnames.includes("/react/add-subject")
+                      : pathnames.includes("add-subject")
                       ? "active"
-                      : pathnames.includes("/react/edit-subject")
+                      : pathnames.includes("edit-subject")
                       ? "active"
                       : ""
                   }`}
@@ -414,15 +356,13 @@ function Sidebar() {
                   </a>
                   <ul>
                     <li
-                      className={
-                        pathnames.includes("/react/subjects") ? "active" : ""
-                      }
+                      className={pathnames.includes("subjects") ? "active" : ""}
                     >
                       <Link to="/subjects">Subject List</Link>
                     </li>
                     <li
                       className={
-                        pathnames.includes("/react/add-subject") ? "active" : ""
+                        pathnames.includes("add-subject") ? "active" : ""
                       }
                     >
                       <Link to="/add-subject">Subject Add</Link>
@@ -431,11 +371,11 @@ function Sidebar() {
                 </li>
                 <li
                   className={`submenu ${
-                    pathnames.includes("/react/grades")
+                    pathnames.includes("grades")
                       ? "active"
-                      : pathnames.includes("/react/add-grade")
+                      : pathnames.includes("add-grade")
                       ? "active"
-                      : pathnames.includes("/react/edit-grade")
+                      : pathnames.includes("edit-grade")
                       ? "active"
                       : ""
                   }`}
@@ -446,15 +386,13 @@ function Sidebar() {
                   </a>
                   <ul>
                     <li
-                      className={
-                        pathnames.includes("/react/grades") ? "active" : ""
-                      }
+                      className={pathnames.includes("grades") ? "active" : ""}
                     >
                       <Link to="/grades">Grades List</Link>
                     </li>
                     <li
                       className={
-                        pathnames.includes("/react/add-grade") ? "active" : ""
+                        pathnames.includes("add-grade") ? "active" : ""
                       }
                     >
                       <Link to="/add-grade">Add Grade</Link>
@@ -464,11 +402,11 @@ function Sidebar() {
 
                 <li
                   className={`submenu ${
-                    pathnames.includes("/react/charges")
+                    pathnames.includes("charges")
                       ? "active"
-                      : pathnames.includes("/react/add-charge")
+                      : pathnames.includes("add-charge")
                       ? "active"
-                      : pathnames.includes("/react/edit-charge")
+                      : pathnames.includes("edit-charge")
                       ? "active"
                       : ""
                   }`}
@@ -479,15 +417,13 @@ function Sidebar() {
                   </a>
                   <ul>
                     <li
-                      className={
-                        pathnames.includes("/react/charges") ? "active" : ""
-                      }
+                      className={pathnames.includes("charges") ? "active" : ""}
                     >
                       <Link to="/charges">Charges List</Link>
                     </li>
                     <li
                       className={
-                        pathnames.includes("/react/add-charge") ? "active" : ""
+                        pathnames.includes("add-charge") ? "active" : ""
                       }
                     >
                       <Link to="/add-charge">Add Charge</Link>
@@ -509,12 +445,13 @@ function Sidebar() {
               <ul>
                 <li
                   className={
-                    pathnames.includes("/react/student-dashboard")
+                    pathnames.includes("student-dashboard") ||
+                    pathnames.includes("dashboard")
                       ? "active"
                       : ""
                   }
                 >
-                  <Link to="/student-dashboard">
+                  <Link to="/dashboard">
                     <FontAwesomeIcon icon={faThLarge} /> <span>Dashboard</span>
                   </Link>
                 </li>
@@ -537,7 +474,8 @@ function Sidebar() {
 
                 <li
                   className={
-                    pathnames.includes("/react/teacher-dashboard")
+                    pathnames.includes("teacher-dashboard") ||
+                    pathnames.includes("dashboard")
                       ? "active"
                       : ""
                   }
@@ -549,9 +487,7 @@ function Sidebar() {
 
                 <li
                   className={
-                    pathnames.includes("/react/teacher-dashboard")
-                      ? "active"
-                      : ""
+                    pathnames.includes("view-schedule-teacher") ? "active" : ""
                   }
                 >
                   <Link to={"/view-schedule-teacher/" + currentUser.id}>
@@ -559,11 +495,7 @@ function Sidebar() {
                   </Link>
                 </li>
 
-                <li
-                  className={
-                    pathnames.includes("/react/holiday") ? "active" : ""
-                  }
-                >
+                <li className={pathnames.includes("grades") ? "active" : ""}>
                   <Link to="/grades">
                     <FontAwesomeIcon icon={faHockeyPuck} /> <span>Note</span>
                   </Link>
@@ -587,21 +519,20 @@ function Sidebar() {
 
                 <li
                   className={
-                    pathnames.includes("/react/teacher-dashboard")
+                    pathnames.includes("teacher-dashboard") ||
+                    pathnames.includes("dashboard")
                       ? "active"
                       : ""
                   }
                 >
-                  <Link to="/teacher-dashboard">
+                  <Link to="/dashboard">
                     <FontAwesomeIcon icon={faThLarge} /> <span>Dashboard</span>
                   </Link>
                 </li>
 
                 <li
                   className={
-                    pathnames.includes("/react/teacher-dashboard")
-                      ? "active"
-                      : ""
+                    pathnames.includes("iew-schedule-teacher") ? "active" : ""
                   }
                 >
                   <Link to={"/view-schedule-teacher/" + currentUser.id}>
@@ -609,11 +540,7 @@ function Sidebar() {
                   </Link>
                 </li>
 
-                <li
-                  className={
-                    pathnames.includes("/react/holiday") ? "active" : ""
-                  }
-                >
+                <li className={pathnames.includes("holiday") ? "active" : ""}>
                   <Link to="/grades">
                     <FontAwesomeIcon icon={faHockeyPuck} /> <span>Note</span>
                   </Link>

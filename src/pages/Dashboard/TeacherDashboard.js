@@ -151,8 +151,13 @@ function TeacherDashboard() {
         })
         .then((classes) => {
           let tableau = [];
+          console.log("Spec", specificData);
           for (let i = 0; i < classes.length; i++) {
-            if (specificData.classesId.includes(classes[i].id)) {
+            if (
+              specificData.classeId === classes[i].id ||
+              (specificData.classesId &&
+                specificData.classesId.includes(classes[i].id))
+            ) {
               tableau.push(classes[i]);
             }
           }
