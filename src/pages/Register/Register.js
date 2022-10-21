@@ -341,7 +341,11 @@ function Register() {
                     </div>
                   </div>
                   <div className="form-group mb-0">
-                    <button className="btn btn-primary btn-block" type="submit">
+                    <button
+                      className="btn btn-primary btn-block"
+                      type="submit"
+                      style={{ width: "100%" }}
+                    >
                       Register
                     </button>
                   </div>

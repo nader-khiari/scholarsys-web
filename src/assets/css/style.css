@@ -312,11 +312,7 @@ table.table td h2 span {
 .rdt_TableCell {
   font-size: 14px !important;
 }
-.rdt_TableCell:nth-child(2),
-.rdt_TableCol:nth-child(2) {
-  min-width: 200px !important;
-  padding: 1rem 0.75rem;
-}
+
 .rdt_Pagination {
   display: flex !important;
   justify-content: start !important;

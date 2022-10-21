@@ -9,11 +9,15 @@ import BootstrapSelect from "react-bootstrap-select-dropdown";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { allClasses } from "../../slices/classes";
+import { allLevels } from "../../slices/levels";
 import ACCOUNT_TYPES from "../../config/accountTypes";
+import { allSubjects } from "../../slices/subject";
 
 function AddTeacher() {
   const history = useHistory();
   const classes = useSelector((state) => state.classes.classes);
+  const levels = useSelector((state) => state.levels.levels);
+  const subjects = useSelector((state) => state.subjects.subjects);
 
   const [firstNameClassName, setFirstNameClassName] = useState(
     "form-control is-invalid"
@@ -36,6 +40,9 @@ function AddTeacher() {
   const [classeClassName, setClasseClassName] = useState(
     "form-control is-invalid"
   );
+  const [subjectClassName, setSubjectClassName] = useState(
+    "form-control is-invalid"
+  );
   const [salaireClassName, setSalaireClassName] = useState(
     "form-control is-invalid"
   );
@@ -55,6 +62,7 @@ function AddTeacher() {
   const [birthDate, setBirthDate] = useState("");
   const [niveau, setNiveau] = useState("");
   const [classe, setClasse] = useState("");
+  const [subject, setSubject] = useState("");
   const [salaire, setSalaire] = useState("");
   const [matiere, setMatiere] = useState("");
   const [phoneNumber, setPhoneNumber] = useState(0);
@@ -62,6 +70,8 @@ function AddTeacher() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(allClasses());
+    dispatch(allLevels());
+    dispatch(allSubjects());
   }, []);
 
   useEffect(() => {
@@ -109,7 +119,12 @@ function AddTeacher() {
   }, [image]);
 
   useEffect(() => {
-    if (niveau === "" || niveau === null || niveau === undefined) {
+    if (
+      niveau === "" ||
+      niveau === null ||
+      niveau === undefined ||
+      niveau?.length === 0
+    ) {
       setNiveauClassName("form-control is-invalid");
     } else {
       setNiveauClassName("form-control is-valid");
@@ -204,13 +219,17 @@ function AddTeacher() {
     setClasse(e.selectedKey);
     // setClasse(e.target.value);
   };
+  const handleSubjectChange = (e) => {
+    setSubject(e.selectedKey);
+    // setClasse(e.target.value);
+  };
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
 
   const handleNiveauChange = (e) => {
-    setNiveau(e.target.value);
+    setNiveau(e.selectedKey);
   };
 
   const handleSalaireChange = (e) => {
@@ -234,8 +253,21 @@ function AddTeacher() {
   function isValidNumber(number) {
     return /^[0-9]{8}$/.test(number);
   }
-  const classesSelectList = classes.map((classe) => {
+  const subjectsSelectList = subjects.map((classe) => {
     return { labelKey: classe.id, value: classe.designation };
+  });
+  const classesSelectList = classes
+    .filter((el) => {
+      console.log(niveau);
+      console.log(el);
+      return niveau.includes(el.niveauId);
+    })
+    .map((classe) => {
+      return { labelKey: classe.id, value: classe.designation };
+    });
+  const levelsSelectList = levels.map((level) => {
+    console.log("level");
+    return { labelKey: level.id, value: level.designation };
   });
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -392,16 +424,35 @@ function AddTeacher() {
 
                   <Col xs={12} sm={6}>
                     <Form.Group>
-                      <Form.Label>Classe</Form.Label>
-                      {/*                                             <Form.Control type="text" className={classeClassName} defaultValue={classe} onChange={handleClasseChange} required />
-                       */}
-                      {/*  <Select
-                                                    placeholder="Select a Class ..."
-                                                    options={classesSelectList}
-                                                    onChange={handleClasseChange}
-                                                    theme="danger"
-                                                    isSearchable={true}
-                                                /> */}
+                      <Form.Label>Level</Form.Label>
+
+                      <BootstrapSelect
+                        isMultiSelect
+                        options={levelsSelectList}
+                        className={niveauClassName}
+                        onChange={handleNiveauChange}
+                      />
+                    </Form.Group>
+                  </Col>
+
+                  <Col xs={12} sm={6}>
+                    <Form.Group>
+                      <Form.Label>Classes</Form.Label>
+                      {/* <Form.Control
+                        type="text"
+                        className={classeClassName}
+                        defaultValue={classe}
+                        onChange={handleClasseChange}
+                        required
+                      />
+
+                      <Select
+                        placeholder="Select a Class ..."
+                        options={classesSelectList}
+                        onChange={handleClasseChange}
+                        theme="danger"
+                        isSearchable={true}
+                      /> */}
 
                       <BootstrapSelect
                         isMultiSelect
@@ -411,7 +462,18 @@ function AddTeacher() {
                       />
                     </Form.Group>
                   </Col>
+                  <Col xs={12} sm={6}>
+                    <Form.Group>
+                      <Form.Label>Subjects</Form.Label>
 
+                      <BootstrapSelect
+                        isMultiSelect
+                        options={subjectsSelectList}
+                        className={subjectClassName}
+                        onChange={handleSubjectChange}
+                      />
+                    </Form.Group>
+                  </Col>
                   <Col xs={12} sm={6}>
                     <Form.Group>
                       <Form.Label>Salaire</Form.Label>

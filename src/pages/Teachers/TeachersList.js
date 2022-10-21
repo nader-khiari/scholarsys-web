@@ -53,9 +53,9 @@ function TeachersList() {
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.id,
-      sortable: true,
+      name: "Full Name",
+      selector: (row) => `${row.firstname} ${row.lastname}`,
+      sortable: false,
     },
     {
       name: "Email",
@@ -69,19 +69,10 @@ function TeachersList() {
     },
     {
       name: "Birth Date",
-      selector: (row) => row.birthDate,
+      selector: (row) => new Date(row.birthDate).toLocaleDateString("en-GB"),
       sortable: true,
     },
-    {
-      name: "First Name",
-      selector: (row) => row.firstname,
-      sortable: true,
-    },
-    {
-      name: "Last Name",
-      selector: (row) => row.lastname,
-      sortable: true,
-    },
+
     {
       name: "Classe",
       selector: (row) => row.id,
@@ -108,7 +99,7 @@ function TeachersList() {
       name: "Salaire",
       selector: (row) => {
         let data = JSON.parse(JSON.parse(row.specificData)) || {};
-        return data.salary;
+        return (data.salary || 0) + " DT";
       },
       sortable: false,
     },

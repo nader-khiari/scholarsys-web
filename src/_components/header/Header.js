@@ -53,7 +53,7 @@ function Header(props) {
 
   const handleLogout = () => {
     dispatch(logout());
-    history.push("/login");
+    history.push("/login", { from: "logout" });
   };
 
   useEffect(() => {

@@ -239,7 +239,7 @@ function Sidebar() {
                 >
                   <a href="#">
                     <FontAwesomeIcon icon={faChalkboardTeacher} />{" "}
-                    <span> Admins</span> <span className="menu-arrow"></span>
+                    <span>Staff</span> <span className="menu-arrow"></span>
                   </a>
                   <ul>
                     <li
@@ -249,14 +249,14 @@ function Sidebar() {
                           : ""
                       }
                     >
-                      <Link to="/admins">Admins List</Link>
+                      <Link to="/admins">Staff List</Link>
                     </li>
                     <li
                       className={
                         pathnames.includes("/react/add-teacher") ? "active" : ""
                       }
                     >
-                      <Link to="/add-admin">Admin Add</Link>
+                      <Link to="/add-admin">Staff Add</Link>
                     </li>
                   </ul>
                 </li>

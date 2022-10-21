@@ -55,6 +55,7 @@ function AddStudent() {
     "form-control is-invalid"
   );
   const [imageClass, setImageClass] = useState("form-control is-invalid");
+  const [gender, setGender] = useState("male");
 
   const [phoneNumber, setPhoneNumber] = useState(0);
   const [firstname, setFirstName] = useState("");
@@ -245,6 +246,7 @@ function AddStudent() {
         birthDate,
         image,
         email,
+        gender.toUpperCase(),
         password,
         ACCOUNT_TYPES.STUDENT,
         0,
@@ -311,7 +313,38 @@ function AddStudent() {
                       />
                     </Form.Group>
                   </Col>
-
+                  <Col xs={12} sm={6}>
+                    <div className="form-group">
+                      <label className="form-group-label">Gender</label>
+                      <br />
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="gender"
+                          id="male"
+                          onClick={() => setGender("male")}
+                          checked={gender === "male"}
+                        />
+                        <label class="form-check-label" for="male">
+                          Male
+                        </label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="gender"
+                          id="female"
+                          onClick={() => setGender("female")}
+                          checked={gender === "female"}
+                        />
+                        <label class="form-check-label" for="female">
+                          Female
+                        </label>
+                      </div>
+                    </div>
+                  </Col>
                   <Col xs={12} sm={6}>
                     <Form.Group>
                       <Form.Label>Date of Birth</Form.Label>

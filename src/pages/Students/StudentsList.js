@@ -35,19 +35,9 @@ function StudentsList() {
   const levels = useSelector((state) => state.levels.levels);
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.id,
-      sortable: true,
-    },
-    {
-      name: "First Name",
-      selector: (row) => row.firstname,
-      sortable: true,
-    },
-    {
-      name: "Last Name",
-      selector: (row) => row.lastname,
-      sortable: true,
+      name: "Full Name",
+      selector: (row) => `${row.firstname} ${row.lastname}`,
+      sortable: false,
     },
     {
       name: "Email",
@@ -57,7 +47,7 @@ function StudentsList() {
 
     {
       name: "Birth Date",
-      selector: (row) => row.birthDate,
+      selector: (row) => new Date(row.birthDate).toLocaleDateString("en-GB"),
       sortable: true,
     },
     {

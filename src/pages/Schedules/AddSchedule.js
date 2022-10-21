@@ -36,6 +36,10 @@ function AddSchedule() {
     setscheduleClass(e.target.value);
   };
 
+  const handleNameChange = (e) => {
+    setScheduleName(e.target.value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (scheduleName === null) {
@@ -90,6 +94,7 @@ function AddSchedule() {
                         type="text"
                         placeholder="EMP-1"
                         value={scheduleName}
+                        onChange={handleNameChange}
                       />
                     </Form.Group>
                   </Col>

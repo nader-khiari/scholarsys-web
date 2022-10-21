@@ -7,10 +7,11 @@ import { faFacebookF, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../slices/auth";
 import { clearMessage } from "../../slices/message";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import ACCOUNT_TYPES from "../../config/accountTypes";
 import { Footer } from "../../_components/footer/Footer";
+import { Button } from "react-bootstrap";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -21,9 +22,9 @@ function Login() {
 
   const history = useHistory();
   const dispatch = useDispatch();
-
+  const location = useLocation();
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && !location.state.from === "logout") {
       history.push("/dashboard");
     }
   }, []);
@@ -93,6 +94,8 @@ function Login() {
                   <div className="form-group">
                     <button
                       className="btn btn-primary btn-block"
+                      type="button"
+                      style={{ width: "100%" }}
                       onClick={HandleLogin}
                     >
                       Login
@@ -110,7 +113,7 @@ function Login() {
                     Forgot Password?{" "}
                   </button>{" "}
                 </div>
-                <div className="login-or">
+                {/* <div className="login-or">
                   <span className="or-line"></span>
                   <span className="span-or">or</span>
                 </div>
@@ -123,7 +126,7 @@ function Login() {
                   <a href="#" className="google">
                     <FontAwesomeIcon icon={faGoogle} />
                   </a>
-                </div>
+                </div> */}
 
                 <div className="text-center dont-have">
                   Don’t have an account? <a href="/register">Register</a>

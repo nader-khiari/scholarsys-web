@@ -19,6 +19,7 @@ import "react-data-table-component-extensions/dist/index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDownload,
+  faFile,
   faPencilAlt,
   faPlus,
   faTrash,
@@ -52,7 +53,7 @@ function SchedulesList() {
       sortable: true,
     },
     {
-      name: "Admin",
+      name: "Agent",
       selector: (row) => row.adminname,
       sortable: true,
     },
@@ -75,7 +76,7 @@ function SchedulesList() {
             className="btn btn-sm btn-outline-primary me-2"
             onClick={() => handleGenerateScheduleClick(row)}
           >
-            <FontAwesomeIcon icon={faPlus} />
+            <FontAwesomeIcon icon={faDownload} />
           </button>
         </div>
       ),
@@ -150,7 +151,7 @@ function SchedulesList() {
       let admin = await userService.getUser(element.adminId);
       let classeName;
       console.log(element);
-      classesList.map((classe) => {
+      classesList.forEach((classe) => {
         if (classe.id === element.classeId) {
           classeName = classe.designation;
         }
@@ -240,8 +241,12 @@ function SchedulesList() {
               </ul>
             </Col>
             <Col className="col-auto text-end float-right ms-auto">
-              <button className="btn btn-primary" onClick={handlePDF}>
-                <FontAwesomeIcon icon={faPencilAlt} />
+              <button
+                className="btn btn-primary"
+                onClick={handlePDF}
+                title="Generate PDFs"
+              >
+                <FontAwesomeIcon icon={faFile} />
               </button>
               &nbsp; &nbsp;
               <button className="btn btn-primary" onClick={addSchedule}>

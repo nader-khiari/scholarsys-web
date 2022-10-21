@@ -301,8 +301,8 @@ function Schedules() {
       title:
         "Subject : " +
         mouseEnterInfo.event.title +
-        "<br> Room : " +
-        mouseEnterInfo.event.extendedProps.room +
+        // "<br> Room : " +
+        // mouseEnterInfo.event.extendedProps.room +
         "<br> Teacher : " +
         mouseEnterInfo.event.extendedProps.teacher,
       html: true,
@@ -523,14 +523,22 @@ function Schedules() {
           initialView="timeGridWeek"
           weekends={true}
           //droppable={true}
-          dayHeaderFormat={{ weekday: "long" }}
+          dayHeaderFormat={{ weekday: "long", day: "numeric" }}
           slotMinTime={"07:00:00"}
           slotMaxTime={"20:00:00"}
           selectable={true}
           eventClick={handleEventClick}
           validRange={{
             start: currentSchedule?.startDate,
-            end: currentSchedule?.endDate,
+            end: new Date(currentSchedule?.endDate),
+            // end: (() => {
+            //   console.log(currentSchedule?.endDate);
+            //   let d = new Date(currentSchedule?.endDate);
+            //   console.log(d);
+            //   d.setDate(d.getDate() + 1);
+            //   console.log(d);
+            //   return d;
+            // })(),
           }}
           select={handleDateClick}
           eventAdd={handleEventAdd}
@@ -589,8 +597,8 @@ function Schedules() {
             />
           </div>
           <br />
-          <div className="col-md-10">
-            {/*   <select className="form-control" onChange={handleEventRoomChange}>
+          {/* <div className="col-md-10"> */}
+          {/*   <select className="form-control" onChange={handleEventRoomChange}>
                             <option>-- Choose Room --</option>
                             {
                                 roomsList.map((room) => {
@@ -598,14 +606,14 @@ function Schedules() {
                                 })
                             }
                         </select> */}
-            <Select
+          {/* <Select
               placeholder="Select a room ..."
               options={roomsSelectList}
               onChange={handleEventRoomChange}
               isSearchable={true}
             />
           </div>
-          <br />
+          <br /> */}
           <div className="col-md-10">
             <input
               disabled
@@ -659,14 +667,14 @@ function Schedules() {
             />
           </div>
           <br />
-          <div className="col-md-10">
+          {/* <div className="col-md-10">
             <Select
               placeholder="Select a room ..."
               options={roomsSelectList}
               onChange={handleUpdateEventRoomChange}
               isSearchable={true}
             />
-          </div>
+          </div> */}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleConfirmDeleteEvent}>
